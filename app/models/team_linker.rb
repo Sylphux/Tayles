@@ -1,0 +1,2 @@
+class TeamLinker < ApplicationRecord
+end

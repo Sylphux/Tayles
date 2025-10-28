@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :nodes
+  resources :teams
   devise_for :users
   get "/home", to: "static#home"
   get "/dashboard", to: "static#dashboard"
