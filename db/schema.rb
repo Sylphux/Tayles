@@ -10,7 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_28_211916) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_28_212518) do
+  create_table "nodes", force: :cascade do |t|
+    t.integer "world_id"
+    t.string "node_type"
+    t.string "node_title"
+    t.text "public_description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["world_id"], name: "index_nodes_on_world_id"
+  end
+
+  create_table "team_linkers", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "node_id"
+    t.integer "team_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["node_id"], name: "index_team_linkers_on_node_id"
+    t.index ["team_id"], name: "index_team_linkers_on_team_id"
+    t.index ["user_id"], name: "index_team_linkers_on_user_id"
+  end
+
   create_table "teams", force: :cascade do |t|
     t.string "name"
     t.text "description"
