@@ -7,5 +7,6 @@ class User < ApplicationRecord
   has_many :worlds, through: :world_owners
   has_many :team_linkers
   has_many :teams, through: :team_linkers
-  has_many :nodes, through: :team_linkers
+  has_many :known_nodes
+  has_many :nodes, through: :known_nodes
 end
