@@ -9,4 +9,6 @@ class User < ApplicationRecord
   has_many :teams, through: :team_linkers
   has_many :known_nodes
   has_many :nodes, through: :known_nodes
+  has_many :known_secrets
+  has_many :secrets, through: :known_secrets
 end

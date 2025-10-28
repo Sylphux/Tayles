@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_28_220722) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_28_221531) do
   create_table "known_nodes", force: :cascade do |t|
     t.integer "user_id"
     t.integer "node_id"
@@ -18,6 +18,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_28_220722) do
     t.datetime "updated_at", null: false
     t.index ["node_id"], name: "index_known_nodes_on_node_id"
     t.index ["user_id"], name: "index_known_nodes_on_user_id"
+  end
+
+  create_table "known_secrets", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "secret_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["secret_id"], name: "index_known_secrets_on_secret_id"
+    t.index ["user_id"], name: "index_known_secrets_on_user_id"
   end
 
   create_table "nodes", force: :cascade do |t|
@@ -28,6 +37,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_28_220722) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["world_id"], name: "index_nodes_on_world_id"
+  end
+
+  create_table "secrets", force: :cascade do |t|
+    t.integer "node_id"
+    t.string "secret_title"
+    t.text "secret_content"
+    t.integer "secret_order"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["node_id"], name: "index_secrets_on_node_id"
   end
 
   create_table "team_linkers", force: :cascade do |t|

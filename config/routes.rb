@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :secrets
   resources :nodes
   resources :teams
   devise_for :users
