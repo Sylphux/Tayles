@@ -62,6 +62,6 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem 'faker'
-gem 'devise'
-gem 'table_print'
+gem "faker"
+gem "devise"
+gem "table_print"

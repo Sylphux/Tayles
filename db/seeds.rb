@@ -40,7 +40,7 @@ end
 
 puts 'Creating worlds and corresponding nodes'
 worldnumber = 0
-number_of_worlds.times do 
+number_of_worlds.times do
     worldname = Faker::Fantasy::Tolkien.location
     World.create(
         world_name: worldname,
@@ -68,7 +68,7 @@ number_of_worlds.times do
     worldnumber += 1
 end
 
-node_type = ["World", "Character", "Object", "Event", "Place"]
+node_type = [ "World", "Character", "Object", "Event", "Place" ]
 
 puts 'Creating random nodes'
 number_of_random_nodes.times do
@@ -101,11 +101,11 @@ end
 
 puts "Giving ownership of worlds to users (At least one per user)"
 i = 1
-while i <= number_of_worlds do 
-    if (i > number_of_users)
+while i <= number_of_worlds do
+    if i > number_of_users
         user_id_gen = rand(User.first.id..User.last.id)
     else
-        user_id_gen = User.first.id + i 
+        user_id_gen = User.first.id + i
     end
     WorldOwner.create(
         world_id: World.first.id + i,
@@ -117,15 +117,14 @@ end
 puts "Linking secrets and users (known_secrets) and linking nodes to users (known_nodes)"
 puts " Only non possessed nodes and secrets will be linked to user"
 number_of_secrets.times do
-
     defined_user_id = rand(User.first.id..User.last.id)
     defined_secret_id = rand(Secret.first.id..Secret.last.id)
 
-    while (Secret.find(defined_secret_id).node.world.users.exists?(defined_user_id)) #cherche un secret qui n'appartient pas à un monde du user (on n'attribue les secrets qu'aux explorateurs)
+    while Secret.find(defined_secret_id).node.world.users.exists?(defined_user_id) # cherche un secret qui n'appartient pas à un monde du user (on n'attribue les secrets qu'aux explorateurs)
         defined_secret_id = rand(Secret.first.id..Secret.last.id)
     end
 
-    if (rand(1..4) == 1)
+    if rand(1..4) == 1
         KnownSecret.create(
             user_id: defined_user_id,
             secret_id: defined_secret_id
@@ -142,18 +141,16 @@ x = 0
 defined_user_id = User.first.id
 
 number_of_teams.times do
-
     defined_team_id = Team.first.id + x
-    
-    4.times do
 
-        if (User.last.id < defined_user_id)
+    4.times do
+        if User.last.id < defined_user_id
             defined_user_id = User.first.id
         end
 
-        while (Team.find(defined_team_id).world.users.exists?(defined_user_id)) # Cherche un joueur pas MJ
+        while Team.find(defined_team_id).world.users.exists?(defined_user_id) # Cherche un joueur pas MJ
             defined_user_id += 1
-            if (User.last.id < defined_user_id)
+            if User.last.id < defined_user_id
                 defined_user_id = User.first.id
             end
         end
@@ -173,7 +170,6 @@ number_of_teams.times do
         )
 
         defined_user_id += 1
-
     end
 
     x += 1
