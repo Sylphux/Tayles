@@ -32,7 +32,7 @@ number_of_users.times do
     name = Faker::Name.name
     User.create(
         username: name,
-        email: "#{name.split(' ').join('.')}@yopmail.com",
+        email: "#{name.split(' ').join('.')}#{rand(1800..2025)}@yopmail.com",
         password: "coolos",
         subscribed: false
     )
