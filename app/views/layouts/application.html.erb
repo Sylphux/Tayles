@@ -23,6 +23,28 @@
   </head>
 
   <body>
-    <%= yield %>
+
+    <nav>
+        <h1><a>Tayles</a></h1>
+        <ul class="nav-menu">
+            <li><a href="#">Accueil</a></li>
+            <li><a href="#">Compte</a></li>
+        </ul>
+    </nav>
+
+    <div class="content"> <%# Classe content du theme custom. Contient tous les elements de la page sauf header et footer. Chaque élément contenu s'imbrique dans ce patters : content > section > div class="section-content"%>
+      <%= yield %>
+    </div>
+
+    <footer> <%# Les div s'agencent toutes seules en space between %>
+        <div>
+            <p>A project by Pablo MASIP and Joseph LOGAN.</p>
+            <p>Tous droits réservés.</p>
+        </div>
+        <div>
+            <p>Visit our <a href="https://github.com/Sylphux/Tayles">GitHub page</a></p>
+        </div>
+    </footer>
+
   </body>
 </html>
