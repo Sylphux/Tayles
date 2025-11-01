@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   resources :secrets
   resources :nodes
   resources :teams
-  devise_for :users
+  devise_for :users, controllers: { registrations: "users/registrations" }
   get "/home", to: "static#home"
   get "/dashboard", to: "static#dashboard"
   get "/about", to: "static#about"
