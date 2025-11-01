@@ -1,6 +1,11 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  before_create :default_sub #les deux lignes permettent de définir subscribed pour faux à chaque création d'utilisateur
+  def default_sub
+    self.subscribed ||= false
+  end
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   has_many :world_owners
