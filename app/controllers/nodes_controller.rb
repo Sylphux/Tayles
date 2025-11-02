@@ -1,5 +1,6 @@
 class NodesController < ApplicationController
   before_action :set_node, only: %i[ show edit update destroy ]
+  before_action :verify_show_access, only: [:show] #verifie si le user peut accéder au node
 
   # GET /nodes or /nodes.json
   def index
@@ -8,6 +9,7 @@ class NodesController < ApplicationController
 
   # GET /nodes/1 or /nodes/1.json
   def show
+    @node = Node.find(params[:id])
   end
 
   # GET /nodes/new
@@ -66,5 +68,14 @@ class NodesController < ApplicationController
     # Only allow a list of trusted parameters through.
     def node_params
       params.fetch(:node, {})
+    end
+
+    def verify_show_access
+      @node = Node.find(params[:id])
+      if node_belongs_to_user?(@node) == false
+        if node_is_known?(@node) == false
+          redirect_to :dashboard
+        end
+      end
     end
 end

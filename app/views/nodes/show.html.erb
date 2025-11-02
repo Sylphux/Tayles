@@ -1,9 +1,38 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @node %>
+<%# <%= render @node %>
 
-<div>
-  <%= link_to "Edit this node", edit_node_path(@node) %> |
-  <%= link_to "Back to nodes", nodes_path %>
-  <%= button_to "Destroy this node", @node, method: :delete %>
-</div>
+<section class="wide-section-small">
+  <div class="section-content">
+    <h1><%=@node.node_title%></h1>
+  </div>
+</section>
+
+<section>
+  <div class="section-content">
+    <h2>Description</h2>
+    <p>
+      Node type : <strong><%=@node.node_type%></strong><br>
+      In world : <strong><%=@node.world.world_name%></strong><br>
+      <%if node_is_known?(@node)%> <%# verifie que le node n'est pas possédé avant d'afficherr les infos d'explorateur %>
+        You are : <strong>An explorer</strong><br>
+        Discovered on : <strong><%= node_discovered_on(@node)%></strong><br>
+        With team : <strong> <%= user_team(@node)%></strong><br>
+      <%else%>
+        You are : <strong>The owner of the world</strong><br>
+      <%end%>
+    </p>
+    <p><%=@node.public_description%></p>
+  </div>
+</section>
+
+<section class="wide-section">
+  <div>
+    <%if node_belongs_to_user?(@node)%>
+      <%= link_to "Edit this node", edit_node_path(@node) %> |
+      <%= link_to "Destroy this node", @node, method: :delete %> |
+    <%end%>
+    <%= link_to "Back to nodes", nodes_path %>
+  </div>
+
+</section>

@@ -142,12 +142,6 @@ nav a:hover {
     margin-bottom: 1rem;
 }
 
-.search-box a {
-    align-self: center;
-    position: absolute;
-    right: 1rem;
-}
-
 .section-content-mini {
     max-width: 400px;
 }
