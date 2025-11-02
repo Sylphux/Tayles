@@ -25,7 +25,7 @@ number_of_worlds = 15
 number_of_users = 5
 number_of_random_nodes = 60
 number_of_secrets = 200
-number_of_teams = 20
+number_of_teams = 4
 
 puts 'Creating users'
 number_of_users.times do
@@ -48,7 +48,7 @@ number_of_worlds.times do
     )
     Node.create(
         node_type: "World",
-        node_title: "#{worldname}'s World Node",
+        node_title: "#{worldname}",
         public_description: Faker::Books::Lovecraft.paragraph,
     )
     worldnumber += 1
@@ -75,8 +75,8 @@ number_of_random_nodes.times do
     Node.create(
         world_id: rand(World.first.id..World.last.id),
         node_type: node_type[rand(1..4)],
-        node_title: Faker::Books::Lovecraft.words,
-        public_description: Faker::Books::Lovecraft.sentences
+        node_title: Faker::Books::Lovecraft.word,
+        public_description: Faker::Books::Lovecraft.paragraph
     )
 end
 

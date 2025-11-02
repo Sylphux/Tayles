@@ -1,0 +1,31 @@
+<div class="card-simple">
+    <h4><%= node.node_title %></h4>
+    <p><strong>Node type : </strong><%= node.node_type%></p>
+    <p><%= shorten_text(node.public_description, 100)%></p>
+    <%if node.node_type == "World"%>
+        <% if defined? posessed%>
+            <%if posessed%> <%# if node is a world posessed by user %>
+                <%if node.world.teams == []%>
+                    <p><strong>Private world.</strong></p>
+                <%else%>
+                    <p>
+                        <strong>Explored by :</strong>
+                        <%for t in node.world.teams do%>
+                            <br>- <a href="#"><%=t.name%></a>
+                        <%end%>
+                    </p>
+                <%end%>
+                <button class="btn-primary">Manage world</button>
+            <%else%> <%# if node is a world explored by user %>
+                <p>
+                    <strong>Explored with :</strong>
+                    <br>- <a href="#"><%=t.name%></a>
+                </p>
+                <button>Visit World</button>
+            <%end%>
+        <%end%>
+    <%else%> <%# not a world node %>
+        <p>In <strong><a href="#"><%=node.world.world_name%></a></strong></p>
+        <button>See <%=node.node_type%></button>
+    <%end%>
+</div>

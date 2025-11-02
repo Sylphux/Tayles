@@ -16,7 +16,7 @@
     --bg-very-dark: rgb(26, 26, 26);
     --bg-dark: rgb(32, 32, 32);
     --bg-medium: rgb(37, 37, 37);
-    --item-white: rgb(224, 224, 224);
+    --item-white: #e0e0e0;
     --item-grey: rgb(168, 168, 168);
     --borders-color: rgb(44, 44, 44);
     --action-element: rgb(179, 165, 121);
@@ -110,8 +110,42 @@ nav a:hover {
     width: 100%;
 }
 
+.wide-section-small {
+    width: 100%;
+    padding: 0px;
+}
+
 .section-content {
     max-width: var(--the-width);
+}
+
+.section-content-center {
+    display: flex;
+    flex-direction: column;
+    max-width: var(--the-width);
+}
+
+.section-content-center h1 {
+    margin-bottom: 1rem;
+}
+
+.big-search {
+    padding: 1rem;
+    width: 100%;
+}
+
+.search-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 0px;
+    margin-bottom: 1rem;
+}
+
+.search-box a {
+    align-self: center;
+    position: absolute;
+    right: 1rem;
 }
 
 .section-content-mini {
