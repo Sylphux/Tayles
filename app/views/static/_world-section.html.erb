@@ -1,0 +1,51 @@
+<section>
+    <div class="section-content">
+        <h2><a href="<%=node_path(w.id)%>"><%=w.node_title%></a></h2>
+        <p>
+        <%if owned%>
+            <strong>Your world.</strong>
+            <%else%>
+            <strong>Explored world.</strong><br>
+            Explored with : <strong><a href="<%=team_path(user_team(w).id)%>"><%=user_team(w).name%></a><br></strong>
+            <% mychar = my_character(w) %>
+            <% if mychar != nil %>
+                Explored as : <strong><a href="<%=node_path(mychar.id)%>%>"><%=mychar.node_title%></a></strong><br>
+                Joined on : <%=node_discovered_on(w)%>
+            <%end%>
+        <%end%>
+        </p>
+        <blockquote class="smaller-blockquote"><%=shorten_text(w.public_description, 600)%></blockquote>
+        <%count = count_nodes_and_secrets(w)%>
+        <p><small>This world has a total of <%= count[:nodes]%> nodes and <%= count[:secrets]%> secrets.</small></p>
+    </div>
+
+    <div class="section-content"> <%# section for nodes %>
+        <%nodes_to_show = []%>
+        <%if owned%>
+            <%for n in w.world.nodes do%>
+                <%nodes_to_show.push(n)%>
+            <%end%>
+            <h3>All nodes</h3>
+        <%else%>
+            <%for n in w.world.nodes do%>
+                <%if node_is_known?(n)%>
+                    <%nodes_to_show.push(n)%>
+                <%end%>
+            <%end%>
+            <h3>Known nodes</h3>
+        <%end%>
+        <%counter = 0%>
+        <div class="group-list-mini">
+            <%for n in nodes_to_show do%>
+                <%if n.node_type != "World"%>
+                    <p><strong><a href="<%= node_path(n.id) %>"><%=n.node_title%></a></strong> | <%=n.node_type%></p>
+                    <%counter += 1%>
+                <%end%>
+                <%if counter >= 8%>
+                    <p class="active-p"><a href="<%= node_path(w.id) %>">See <%= nodes_to_show.count - counter %> more...</a></p>
+                    <%break%>
+                <%end%>
+            <%end%>
+        </div>
+    </div>
+</section>

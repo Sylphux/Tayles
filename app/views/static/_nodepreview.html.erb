@@ -23,6 +23,6 @@
             <%end%>
         <%end%>
     <%else%> <%# not a world node %>
-        <p>In <strong><a href="#"><%=node.world.world_name%></a></strong></p>
+        <p>In <strong><a href="<%=node_path(node.world.node.id)%>"><%=node.world.world_name%></a></strong></p>
     <%end%>
 </div>

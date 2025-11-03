@@ -21,7 +21,7 @@
     --borders-color: rgb(44, 44, 44);
     --action-element: rgb(179, 165, 121);
     --active-element: rgb(153, 142, 104);
-    --the-width: 57rem;
+    --the-width: 40rem;
 }
 
 /* defined containers */
@@ -60,6 +60,8 @@ section {
 }
 
 nav {
+    position: sticky;
+    top: 0;
     padding: 1rem;
     padding-left: 2rem;
     padding-right: 2rem;
@@ -67,7 +69,7 @@ nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: 0rem 0rem 1rem rgba(0, 0, 0, 0.055);
+    box-shadow: 0rem 0rem 1rem rgba(0, 0, 0, 0.267);
 }
 
 nav h1 {
@@ -104,6 +106,10 @@ nav a:hover {
     justify-content: center;
     padding: 1rem;
     margin: 0rem;
+}
+
+.vert-center {
+    align-items: center;
 }
 
 .wide-section {
@@ -362,11 +368,15 @@ a:hover {
 blockquote {
     background-color: var(--bg-dark);
     margin: 0rem;
-    margin-left: 1rem;
     padding: 1rem;
     border-left-style: solid;
     border-radius: 4px;
     color: var(--item-grey);
+    max-width: 40rem;
+}
+
+.smaller-blockquote {
+    max-width: 25rem;
 }
 
 ul, ol {

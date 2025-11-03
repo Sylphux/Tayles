@@ -160,8 +160,13 @@ number_of_teams.times do
             world_id: Team.find(defined_team_id).world_id,
             node_type: "Character",
             node_title: Faker::Games::Witcher.character,
-            public_description: Faker::Games::Witcher.school
+            public_description: Faker::Books::Lovecraft.paragraph
         ).id
+
+        KnownNode.create(
+            node_id: defined_character_node_id,
+            user_id: defined_user_id
+        )
 
         TeamLinker.create(
             user_id: defined_user_id,

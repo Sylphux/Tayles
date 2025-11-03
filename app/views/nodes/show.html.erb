@@ -1,7 +1,5 @@
 <p style="color: green"><%= notice %></p>
 
-<%# <%= render @node %>
-
 <section class="wide-section-small">
   <div class="section-content">
     <h1><%=@node.node_title%></h1>
@@ -13,26 +11,56 @@
     <h2>Description</h2>
     <p>
       Node type : <strong><%=@node.node_type%></strong><br>
-      In world : <strong><%=@node.world.world_name%></strong><br>
-      <%if node_is_known?(@node)%> <%# verifie que le node n'est pas possédé avant d'afficherr les infos d'explorateur %>
+      In world : <a href="<%=node_path(@node.world.node)%>"><strong><%=@node.world.world_name%></strong></a><br>
+      <%if @posessed%> <%# verifie que le node n'est pas possédé avant d'afficherr les infos d'explorateur. @posessed est défini dans le controller %>
+        You are : <strong>The owner of the world</strong><br>
+      <%else%>
         You are : <strong>An explorer</strong><br>
         Discovered on : <strong><%= node_discovered_on(@node)%></strong><br>
-        With team : <strong> <%= user_team(@node)%></strong><br>
-      <%else%>
-        You are : <strong>The owner of the world</strong><br>
+        With team : <strong> <a href="<%=team_path(user_team(@node).id)%>"><%= user_team(@node).name%></a></strong><br>
       <%end%>
     </p>
     <p><%=@node.public_description%></p>
   </div>
 </section>
 
+<%if @node_secrets != []%> <%# si il y a des secrets à afficher, défini dans le controller %>
+  <section class="wide-section-small">
+    <div class="section-content">
+      <%if @posessed%>
+        <h2>All secrets</h2>
+      <%else%>
+        <h2>Known secrets</h2>
+      <%end%>
+
+    </div>
+  </section>
+  <%= render "show_secret"%>
+<%end%>
+
+<section class="wide-section vert-center">
+  <div class="section-content">
+    <h2>Relative nodes</h2>
+  </div>
+  <div class="section-content">
+    <div class="group-list">
+      <%for n in get_known_relative_nodes(@node) do%>
+        <p>
+          <strong><a href="<%=node_path(n.id)%>"><%=n.node_title%></a></strong> | <%=n.node_type%><br>
+          <small><%=shorten_text(n.public_description, 50)%></small>
+        </p>
+      <%end%>
+    </div>
+  </div>
+</section>
+
 <section class="wide-section">
   <div>
-    <%if node_belongs_to_user?(@node)%>
+    <%if @posessed%>
+      <p>Links not working atm</p>
       <%= link_to "Edit this node", edit_node_path(@node) %> |
       <%= link_to "Destroy this node", @node, method: :delete %> |
     <%end%>
-    <%= link_to "Back to nodes", nodes_path %>
+    <%= link_to "Back to nodes", dashboard_path %>
   </div>
-
 </section>

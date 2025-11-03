@@ -1,0 +1,15 @@
+<section> <%# render all nodes (including possessed and explored worlds) as nodes (we ignore world objects)%>
+    <div class="grid">
+        <% for w in current_user.worlds do %> <%# possessedd worlds %>
+            <%= render "nodepreview", node: w.node, posessed: true%>
+        <% end %>
+        <% for t in current_user.teams do %> <%# explored worlds %>
+            <%= render "nodepreview", node: t.world.node, t: t, posessed: false %>
+        <% end%>
+        <% for n in current_user.nodes do%>
+            <% if n.node_type != "World"%>
+                <%=render "nodepreview", node: n%>
+            <%end%>
+        <% end%>
+    </div>
+</section>

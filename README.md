@@ -45,6 +45,7 @@ After making sure of this, you can install and start the app :
 
 ```shell
 bundle install
+rails db:drop
 rails db:migrate
 rails db:seed
 rails s

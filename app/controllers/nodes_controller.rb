@@ -1,6 +1,6 @@
 class NodesController < ApplicationController
   before_action :set_node, only: %i[ show edit update destroy ]
-  before_action :verify_show_access, only: [:show] #verifie si le user peut accéder au node
+  before_action :verify_show_access, only: [ :show ] # verifie si le user peut accéder au node
 
   # GET /nodes or /nodes.json
   def index
@@ -10,6 +10,12 @@ class NodesController < ApplicationController
   # GET /nodes/1 or /nodes/1.json
   def show
     @node = Node.find(params[:id])
+    @posessed = node_belongs_to_user?(@node)
+    if @posessed
+      @node_secrets = @node.secrets
+    else
+      @node_secrets = grab_known_secrets(@node)
+    end
   end
 
   # GET /nodes/new
