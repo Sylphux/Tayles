@@ -100,4 +100,20 @@ module SessionsHelper
         end
         { nodes: node_count, secrets: secret_count }
     end
+
+    def verify_new_node_format(par)
+        case par
+        when "Character"
+            return "Character"
+        when "Place"
+            return "Place"
+        when "Event"
+            return "Event"
+        when "Object"
+            return "Object"
+        when "World"
+            return "World"
+        end
+        return nil
+    end
 end

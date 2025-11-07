@@ -1,4 +1,5 @@
 <%= form_with(model: node) do |form| %>
+
   <% if node.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(node.errors.count, "error") %> prohibited this node from being saved:</h2>
@@ -10,6 +11,20 @@
       </ul>
     </div>
   <% end %>
+
+  <div>
+    <%= form.label :node_title %>
+    <%= form.text_field :node_title %>
+  </div>
+  <div>
+    <%= form.label :public_description %>
+    <%= form.text_area :public_description %>
+  </div>
+  <%if type %> <%# si un node type est passé en params, on l'utilise, sinon on demande %>
+    <%= form.hidden_field :node_type, value: type %> 
+  <%else%>
+    <%= form.select :city, ["Place", "Character", "Object", "Event"] %>
+  <%end%>
 
   <div>
     <%= form.submit %>

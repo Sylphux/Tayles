@@ -27,20 +27,59 @@ class NodesController < ApplicationController
   def edit
   end
 
+
+
+
+
   # POST /nodes or /nodes.json
   def create
-    @node = Node.new(node_params)
+    puts params
+    node_spec = node_params
 
-    respond_to do |format|
-      if @node.save
-        format.html { redirect_to @node, notice: "Node was successfully created." }
-        format.json { render :show, status: :created, location: @node }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @node.errors, status: :unprocessable_entity }
+    if node_spec[:node_type] == "World"
+
+      node_spec[:world_id] = nil
+      #on crée à la fois un node world et son object world associé avec les mêmes specs
+      new_world_node = Node.new(node_spec)
+      new_world = World.new(world_name: node_spec[:node_title], description: node_spec[:public_description])
+
+      respond_to do |format|
+        if new_world_node.save && new_world.save
+          new_world.node_id = new_world_node.id
+          new_world_node.world_id = new_world.id
+          new_world_ownership = WorldOwner.new(user: current_user, world: new_world)
+          if new_world_node.save && new_world.save && new_world_ownership.save # on vérifie que tout s'enregistre correctement
+            format.html { redirect_to :dashboard, notice: "World node, world object and world ownership were successfully created." }
+          end
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          redirect_to new_node_path
+        end
       end
+
+    else #si ce n'est pas un world mais un node commun
+
+      # Barriere en attendant que cette section soit codée
+      if true
+        redirect_to :dashboard, notice: "Cant create nodes other than worlds at this stage"
+      else
+      new_node = Node.new(node_spec)
+
+        respond_to do |format|
+          if new_node.save
+            format.html { redirect_to node_path(new_node.id), notice: "Node was successfully created." }
+          else
+            format.html { render :new, status: :unprocessable_entity }
+            redirect_to :dashboard
+          end
+        end
+      end
+
     end
+
+
   end
+
 
   # PATCH/PUT /nodes/1 or /nodes/1.json
   def update
@@ -73,7 +112,7 @@ class NodesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def node_params
-      params.fetch(:node, {})
+      params.require(:node).permit(:node_title, :public_description, :node_type, :world_id)
     end
 
     def verify_show_access
@@ -84,4 +123,5 @@ class NodesController < ApplicationController
         end
       end
     end
+
 end

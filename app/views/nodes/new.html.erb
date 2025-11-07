@@ -1,11 +1,22 @@
-<% content_for :title, "New node" %>
+<%if params[:format]%>
+  <%type = verify_new_node_format(params[:format])%> <%# en gros on vérifie que le params est bien un format de node autorisé %>
+<%else%>
+  <%type = nil%>
+<%end%>
 
-<h1>New <%=params[:format]%></h1>
+<section class="wide-section-small">
+    <div class="section-content">
+      <%if type == nil%>
+        <h1>New Node</h1>
+        <%# dans ce cas définir plus bas le node type %>
+      <%else%>
+        <h1>New <%=type%></h1>
+      <%end%>
+    </div>
+</section>
 
-<%= render "form", node: @node %>
-
-<br>
-
-<div>
-  <%= link_to "Back to nodes", nodes_path %>
-</div>
+<section>
+  <div class="section-content">
+    <%= render "form", node: @node, type: type %>
+  </div>
+</section>
