@@ -6,6 +6,14 @@ module SessionsHelper
         s
     end
 
+    def explored_worlds
+        result = []
+        for t in current_user.teams do
+            result.push(t.world.node)
+        end
+        return result
+    end
+
     def node_belongs_to_user?(n) # verifies if node belongs to user
         for u in n.world.users
             if u == current_user

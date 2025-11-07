@@ -174,7 +174,18 @@ number_of_teams.times do
             node_id: defined_character_node_id
         )
 
+        # fiving player access to the world node
+        KnownNode.create(
+            user_id: defined_user_id,
+            node_id: Team.find(defined_team_id).world.node.id
+        )
+
         defined_user_id += 1
+
+
+
+
+
     end
 
     x += 1

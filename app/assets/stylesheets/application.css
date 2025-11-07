@@ -24,7 +24,7 @@
     --the-width: 40rem;
 }
 
-/* defined containers */
+/* containers tags */
 
 body {
     color: var(--item-grey);
@@ -107,6 +107,36 @@ nav a:hover {
     padding: 1rem;
     margin: 0rem;
 }
+
+.navdrop {
+    position: relative;
+    display: inline-block;
+}
+
+.navdrop-content {
+    display: none;
+    position: absolute;
+    min-width: 12rem;
+    background-color: var(--bg-medium);
+    border-radius: 1rem;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 8px;
+}
+
+.navdrop-content a, .navdrop-content p {
+    display: block;
+    padding: 8px;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.navdrop a:hover {
+    cursor: pointer;
+    border-radius: 1rem;
+}
+
+.navdrop-content a:hover {background-color: var(--bg-dark);}
+.navdrop:hover .navdrop-content {display: block;}
 
 .vert-center {
     align-items: center;
