@@ -1,7 +1,11 @@
-<%if params[:format]%>
-  <%type = verify_new_node_format(params[:format])%> <%# en gros on vérifie que le params est bien un format de node autorisé %>
-<%else%>
-  <%type = nil%>
+<%type = nil%> <%# en gros on vérifie que le node type est dans un format autorisé %>
+<%if params[:node_type]%>
+  <%type = verify_new_node_format(params[:node_type])%> 
+<%end%>
+
+<%world_id = nil%> <%# on vérifie que user a le droit de créer un node dans ce monde %>
+<%if params[:world_id] && node_belongs_to_user?(World.find(params[:world_id]).node)%>
+  <%world_id = params[:world_id]%>
 <%end%>
 
 <section class="wide-section-small">
@@ -17,6 +21,12 @@
 
 <section>
   <div class="section-content">
-    <%= render "form", node: @node, type: type %>
+
+    <%if (type != "World" && world_id != nil) || (type == "World" && world_id == nil) %>
+      <%= render "form", node: @node, type: type, world_id: world_id %>
+    <%else%>
+      <p>Access restricted.</p>
+    <%end%>
+
   </div>
 </section>

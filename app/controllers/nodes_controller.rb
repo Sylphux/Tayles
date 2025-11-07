@@ -59,24 +59,18 @@ class NodesController < ApplicationController
 
     else #si ce n'est pas un world mais un node commun
 
-      # Barriere en attendant que cette section soit codée
-      if true
-        redirect_to :dashboard, notice: "Cant create nodes other than worlds at this stage"
-      else
       new_node = Node.new(node_spec)
 
-        respond_to do |format|
-          if new_node.save
-            format.html { redirect_to node_path(new_node.id), notice: "Node was successfully created." }
-          else
-            format.html { render :new, status: :unprocessable_entity }
-            redirect_to :dashboard
-          end
+      respond_to do |format|
+        if new_node.save
+          format.html { redirect_to node_path(new_node.id), notice: "Node was successfully created." }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          redirect_to :dashboard
         end
       end
 
     end
-
 
   end
 

@@ -116,4 +116,8 @@ module SessionsHelper
         end
         return nil
     end
+
+    def ntypes
+        return ["Character", "Place", "Event", "Object"]
+    end
 end

@@ -8,7 +8,7 @@
         <%for world in current_user.worlds do%>
             <a href="<%= node_path(world.node.id)%>"><%=world.node.node_title%></a>
         <%end%>
-        <a href="<%= new_node_path("World") %>"><strong>New world</strong></a>
+        <a href="<%= new_node_path({node_type: "World"}) %>"><strong>New world</strong></a>
         <%if explored_worlds != []%>
             <p><strong>Explored worlds :</strong></p>
             <%for world in explored_worlds do%>

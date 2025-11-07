@@ -23,7 +23,10 @@
   <%if type %> <%# si un node type est passé en params, on l'utilise, sinon on demande %>
     <%= form.hidden_field :node_type, value: type %> 
   <%else%>
-    <%= form.select :city, ["Place", "Character", "Object", "Event"] %>
+    <%= form.select :city, ntypes %> <%# ntypes est dans sessionshelper %>
+  <%end%>
+  <%if world_id%>
+    <%= form.hidden_field :world_id, value: world_id %> 
   <%end%>
 
   <div>

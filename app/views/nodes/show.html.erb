@@ -1,5 +1,3 @@
-<p style="color: green"><%= notice %></p>
-
 <section class="wide-section-small">
   <div class="section-content">
     <h1><%=@node.node_title%></h1>
@@ -23,6 +21,23 @@
     <p><%=@node.public_description%></p>
   </div>
 </section>
+
+<%if @posessed%> <%# section où on peut manage des trucs par rapport au node %>
+  <section>
+    <div class="section-content">
+      <h2>Management panel</h2>
+      <%if @node.node_type == "World"%>
+        <p>Create a new node :</p>
+        <%for t in ntypes do%>
+          <%= link_to "New #{t}", new_node_path({node_type: t, world_id: @node.id}) %><br>
+        <%end%>
+      <%end%>
+      <p>Settings :</p>
+      <%= link_to "Edit this node", edit_node_path(@node) %><br>
+      <%= link_to "Destroy this node", @node, method: :delete %>
+    </div>
+  </section>
+<%end%>
 
 <%if @node_secrets != []%> <%# si il y a des secrets à afficher, défini dans le controller %>
   <section class="wide-section-small">
@@ -51,16 +66,5 @@
         </p>
       <%end%>
     </div>
-  </div>
-</section>
-
-<section class="wide-section">
-  <div>
-    <%if @posessed%>
-      <p>Links not working atm</p>
-      <%= link_to "Edit this node", edit_node_path(@node) %> |
-      <%= link_to "Destroy this node", @node, method: :delete %> |
-    <%end%>
-    <%= link_to "Back to nodes", dashboard_path %>
   </div>
 </section>
