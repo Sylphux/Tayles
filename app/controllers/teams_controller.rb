@@ -8,6 +8,7 @@ class TeamsController < ApplicationController
 
   # GET /teams/1 or /teams/1.json
   def show
+    @owned = team_belongs_to_user(@team)
   end
 
   # GET /teams/new
@@ -65,6 +66,7 @@ class TeamsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def team_params
-      params.fetch(:team, {})
+      params.require(:team).permit(:name, :description, :world_id)
     end
+
 end

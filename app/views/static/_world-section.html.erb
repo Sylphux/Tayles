@@ -7,10 +7,12 @@
             <%else%>
             <strong>Explored world.</strong><br>
             Explored with : <strong><a href="<%=team_path(user_team(w).id)%>"><%=user_team(w).name%></a><br></strong>
+            Joined on : <%=node_discovered_on(w)%><br>
             <% mychar = my_character(w) %>
             <% if mychar != nil %>
                 Explored as : <strong><a href="<%=node_path(mychar.id)%>%>"><%=mychar.node_title%></a></strong><br>
-                Joined on : <%=node_discovered_on(w)%>
+            <%else%>
+                <strong>You don't have a player character.</strong>
             <%end%>
         <%end%>
         </p>
@@ -42,7 +44,7 @@
                     <%counter += 1%>
                 <%end%>
                 <%if counter >= 8%>
-                    <p class="active-p"><a href="<%= node_path(w.id) %>">See <%= nodes_to_show.count - counter %> more...</a></p>
+                    <p class="active-p"><a href="<%= node_path(w.id) %>#nodes">See <%= nodes_to_show.count - counter %> more...</a></p>
                     <%break%>
                 <%end%>
             <%end%>

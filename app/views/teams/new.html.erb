@@ -1,11 +1,17 @@
 <% content_for :title, "New team" %>
 
-<h1>New team</h1>
+<section class="wide-section-small">
+  <div class="section-content">
+    <h1>New team in <a href="<%=node_path(Node.find(params[:world_id]).id)%>%>"><%= Node.find(params[:world_id]).node_title%></a></h1>
+  </div>
+</section>
 
-<%= render "form", team: @team %>
-
-<br>
-
-<div>
-  <%= link_to "Back to teams", teams_path %>
-</div>
+<section>
+  <div class="section-content">
+    <%if node_belongs_to_user?(Node.find(params[:world_id]))%> <%# sécurité pour que les user créent pas des teams dans les mondes des autres %>
+      <%= render "form", team: @team %>
+    <%else%>
+      <p>Access restricted.</p>
+    <%end%>
+  </div>
+</section>

@@ -11,11 +11,15 @@
       Node type : <strong><%=@node.node_type%></strong><br>
       In world : <a href="<%=node_path(@node.world.node)%>"><strong><%=@node.world.world_name%></strong></a><br>
       <%if @posessed%> <%# verifie que le node n'est pas possédé avant d'afficherr les infos d'explorateur. @posessed est défini dans le controller %>
-        You are : <strong>The owner of the world</strong><br>
+        <%if @node.node_type == "World"%>
+          You are : <strong>The owner of the world</strong><br>
+        <%end%>
       <%else%>
-        You are : <strong>An explorer</strong><br>
+        <%if @node.node_type == "World"%>
+          You are : <strong>An explorer</strong><br>
+        <%end%>
         Discovered on : <strong><%= node_discovered_on(@node)%></strong><br>
-        With team : <strong> <a href="<%=team_path(user_team(@node).id)%>"><%= user_team(@node).name%></a></strong><br>
+        Discovered with : <strong> <a href="<%=team_path(user_team(@node).id)%>"><%= user_team(@node).name%></a></strong><br>
       <%end%>
     </p>
     <p><%=@node.public_description%></p>
@@ -31,10 +35,15 @@
         <%for t in ntypes do%>
           <%= link_to "New #{t}", new_node_path({node_type: t, world_id: @node.id}) %><br>
         <%end%>
+        <p>Manage teams :</p>
+        <%for team in @node.world.teams do%>
+          <%= link_to team.name, team_path(team.id) %><br>
+        <%end%>
+        <strong><%= link_to "New team", new_team_path({world_id: @node.id}) %></strong><br>
       <%end%>
       <p>Settings :</p>
       <%= link_to "Edit this node", edit_node_path(@node) %><br>
-      <%= link_to "Destroy this node", @node, method: :delete %>
+      <%= link_to "Destroy this node (don't)", @node, method: :delete %>
     </div>
   </section>
 <%end%>
@@ -55,16 +64,34 @@
 
 <section class="wide-section vert-center">
   <div class="section-content">
-    <h2>Relative nodes</h2>
+    <h2 id="nodes">Relative nodes</h2>
   </div>
-  <div class="section-content">
-    <div class="group-list">
-      <%for n in get_known_relative_nodes(@node) do%>
-        <p>
-          <strong><a href="<%=node_path(n.id)%>"><%=n.node_title%></a></strong> | <%=n.node_type%><br>
-          <small><%=shorten_text(n.public_description, 50)%></small>
-        </p>
-      <%end%>
+
+  <%counter = 0%>
+  <%i = 0%>
+  <%relative_nodes = get_known_relative_nodes(@node)%>
+  <%max_nodes_per_group = 10%>
+  <%if relative_nodes != []%>
+    <%(relative_nodes.length / max_nodes_per_group + 1).times do%> <%# colonne %>
+      <div class="section-content">
+        <div class="group-list">
+          <%max_nodes_per_group.times do%>
+            <%if relative_nodes[i]%>
+              <%n = relative_nodes[i]%>
+              <p>
+                <strong><a href="<%=node_path(n.id)%>"><%=n.node_title%></a></strong> | <%=n.node_type%><br>
+                <small><%=shorten_text(n.public_description, 50)%></small>
+              </p> 
+            <%end%>
+            <%i += 1%>
+          <%end%>
+        </div>
+      </div>
+    <%end%>
+  <%else%>
+    <div class="section-content">
+      <p>No nodes yet.</p>
     </div>
-  </div>
+  <%end%>
+
 </section>

@@ -4,7 +4,7 @@
 <%end%>
 
 <%world_id = nil%> <%# on vérifie que user a le droit de créer un node dans ce monde %>
-<%if params[:world_id] && node_belongs_to_user?(World.find(params[:world_id]).node)%>
+<%if params[:world_id] && node_belongs_to_user?(Node.find(params[:world_id]))%>
   <%world_id = params[:world_id]%>
 <%end%>
 

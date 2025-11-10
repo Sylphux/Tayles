@@ -23,6 +23,14 @@ module SessionsHelper
         false
     end
 
+    def get_player_character(t, u) # gets a players character node (t is team and u is user)
+        if u.team_linkers.where(team_id: t.id).first.node
+            return u.team_linkers.where(team_id: t.id).first.node
+        else
+            return false
+        end
+    end
+
     def node_is_known?(n) # verifies if node is known by user (so user is an explorer)
         for u in n.users
             if u == current_user
@@ -32,15 +40,30 @@ module SessionsHelper
         false
     end
 
-    def node_discovered_on(n) # gives the date node was revealed to current user
-        for x in n.known_nodes
-            if x.user == current_user
-                return x.created_at
-            else
-                return "(Error : User not found in known nodes)"
+    def team_belongs_to_user(t)
+        for w in current_user.worlds do
+            for team in w.teams do
+                if team == t
+                    return true
+                end
             end
         end
-        "(Error : No known nodes)"
+        return false
+    end
+
+    def node_discovered_on(n) # gives the date node was revealed to current user
+        # for x in n.known_nodes
+        #     if x.user == current_user
+        #         return x.created_at
+        #     else
+        #         return "(Error : User not found in known nodes)"
+        #     end
+        # end
+        # "(Error : No known nodes)"
+        for known in KnownNode.where(node: n, user: current_user)
+            return known.created_at
+        end
+        return "Not discovered yet."
     end
 
     def user_team(n) # returns the team on which user is exploring the world

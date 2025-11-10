@@ -60,6 +60,7 @@ class NodesController < ApplicationController
     else #si ce n'est pas un world mais un node commun
 
       new_node = Node.new(node_spec)
+      new_node.world_id = Node.find(node_spec[:world_id]).world_id
 
       respond_to do |format|
         if new_node.save
