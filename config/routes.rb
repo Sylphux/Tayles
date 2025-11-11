@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   resources :secrets
   resources :nodes
   resources :teams
+  resources :team_invites
+  resources :team_linkers
   devise_for :users, controllers: { registrations: "users/registrations" }
   get "/home", to: "static#home"
   get "/dashboard", to: "static#dashboard"

@@ -4,6 +4,10 @@
     </div>
 </section>
 
+<%if TeamInvite.where(invited_email_id: current_user.email, status: "Pending") != []%>
+    <%= render "team_invites", invites: TeamInvite.where(invited_email_id: current_user.email, status: "Pending")%>
+<%end%>
+
 <%for w in @my_worlds do%>
     <%= render "world-section", w: w, owned: true %>
 <%end%>

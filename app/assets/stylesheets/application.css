@@ -315,6 +315,21 @@ nav a:hover {
     background-color: var(--bg-very-dark);
 }
 
+.invite_card {
+    background-color: var(--bg-dark);
+    padding: 1em;
+    border-radius: 1rem;
+}
+
+.invite_card h3 {
+    margin: 0px;
+    margin-bottom: 0.5rem;
+}
+
+.invite_card blockquote {
+    background-color: var(--bg-very-dark);
+}
+
 .card-simple, .card-image, .card-hor {
     background-color: var(--bg-dark);
     border-style: solid;

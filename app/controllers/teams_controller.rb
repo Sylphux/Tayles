@@ -1,5 +1,6 @@
 class TeamsController < ApplicationController
   before_action :set_team, only: %i[ show edit update destroy ]
+  before_action :verify_show_access, only: [:show]
 
   # GET /teams or /teams.json
   def index
@@ -8,6 +9,7 @@ class TeamsController < ApplicationController
 
   # GET /teams/1 or /teams/1.json
   def show
+    @team = Team.find(params[:id])
     @owned = team_belongs_to_user(@team)
   end
 
@@ -59,6 +61,15 @@ class TeamsController < ApplicationController
   end
 
   private
+
+    def verify_show_access
+      team = Team.find(params[:id])
+
+      if team_belongs_to_user(team) == false && team_is_explored(team) == false
+        redirect_to :dashboard
+      end
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_team
       @team = Team.find(params.expect(:id))

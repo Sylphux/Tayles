@@ -1,0 +1,24 @@
+<section>
+    <div class="section-content">
+        <h2>New invitations</h2>
+        <%if invites.count > 1%>
+            <p>You have been invited to several teams.</p>
+        <%else%>
+            <p>You have been invited to a new team.</p>
+        <%end%>
+
+        <%for invite in invites do%> <%# liste des invitations %>
+            <div class="grid">
+                <div class="invite_card">
+                    <h3><%=invite.team.name%></h3>
+                    <p>In <strong><%=invite.team.world.world_name%></strong>, a world by <strong><%=invite.team.world.users.first.username%></strong></p>
+                    <blockquote class="smaller-blockquote"><%=shorten_text(invite.team.world.node.public_description, 250)%></blockquote>
+                    <div class="grid">
+                        <%= button_to "Accept", team_invite_path(invite.id, {choice: "Accept"}), method: :patch, class: "btn-sm btn-success" %>
+                        <%= button_to "Decline", team_invite_path(invite.id, {choice: "Decline"}), method: :patch, class: "btn-sm btn-danger" %>
+                    </div>
+                </div>
+            </div>
+        <%end%>
+    </div>
+</section>

@@ -12,34 +12,52 @@
     <h3>Team description</h3>
     <%=@team.description%>
     <p>Created at : <%=@team.created_at%></p>
-
-    <h3>Invite user to team</h3>
-    <input><button>Send invite</button>
-  </div>
-  
-</section>
-
-<section> <%# section playters %>
-  <div class="section-content">
-  <h3>Team players</h3>
-  </div>
-  <div class="grid">
-      <%for player in @team.users do%>
-        <div class="card-simple">
-          <h4><%=player.username%></h4>
-          <%if playerchar = get_player_character(@team, player)%>
-            <p><strong>Player character : </strong><a href="<%=node_path(playerchar.id)%>"><%=playerchar.node_title%></a></p>
-            <p><strong>Character description :</strong><br> <%=shorten_text(playerchar.public_description, 200)%></p>
-          <%else%>
-            <p>This player doesn't have a character yet.</p>
-          <%end%>
-          <%if @owned%>
-            <button type="button" class="btn-danger btn-sm">Remove from team</button>  <%# à coder %>
-          <%end%>
+    <%if @owned%>
+      <h3>Invite user to team</h3>
+      <%= form_with url: team_invites_path, method: :post do |form| %>
+          <%= form.text_field :email %>
+          <%= form.submit "Send invite" %>
+          <%= form.hidden_field :team_id, value: @team.id %> 
+      <%end%>
+      <%if TeamInvite.where(team_id: @team.id, status: "Pending") != [] %>
+        <h3>Pending invites</h3>
+        <div class="group-list-mini">
+        <%for invite in TeamInvite.where(team_id: @team.id, status: "Pending") do%>
+          <p>
+            <%=invite.invited_email_id%> | 
+            <%= link_to "Cancel", team_invite_path(invite.id), data: { turbo_method: :delete}%>
+          </p>
+        <%end%>
         </div>
       <%end%>
-    </div>
+    <%end%>
+  </div>
 </section>
+
+
+<%if @team.users != []%>
+  <section> <%# section playters %>
+    <div class="section-content">
+      <h3>Team players</h3>
+    </div>
+    <div class="grid">
+        <%for player in @team.users do%>
+          <div class="card-simple">
+            <h4><%=player.username%></h4>
+            <%if playerchar = get_player_character(@team, player)%>
+              <p><strong>Player character : </strong><a href="<%=node_path(playerchar.id)%>"><%=playerchar.node_title%></a></p>
+              <p><strong>Character description :</strong><br> <%=shorten_text(playerchar.public_description, 200)%></p>
+            <%else%>
+              <p>This player doesn't have a character yet.</p>
+            <%end%>
+            <%if @owned%>
+              <%= button_to "Remove", team_linker_path(TeamLinker.where(team: @team, user: player).first.id), method: :delete, class: "btn-sm btn-danger"%>
+            <%end%>
+          </div>
+        <%end%>
+      </div>
+  </section>
+<%end%>
 
 <%if @owned%> <%# défini dans le controller %>
   <section class="wide-section">

@@ -51,6 +51,15 @@ module SessionsHelper
         return false
     end
 
+    def team_is_explored(t)
+        for user in t.users
+            if user == current_user
+                return true
+            end
+        end
+        return false
+    end
+
     def node_discovered_on(n) # gives the date node was revealed to current user
         # for x in n.known_nodes
         #     if x.user == current_user

@@ -16,4 +16,5 @@ class User < ApplicationRecord
   has_many :nodes, through: :known_nodes
   has_many :known_secrets
   has_many :secrets, through: :known_secrets
+  has_many :team_invites
 end

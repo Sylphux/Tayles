@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_28_221531) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_11_124003) do
   create_table "known_nodes", force: :cascade do |t|
     t.integer "user_id"
     t.integer "node_id"
@@ -47,6 +47,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_28_221531) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["node_id"], name: "index_secrets_on_node_id"
+  end
+
+  create_table "team_invites", force: :cascade do |t|
+    t.string "invited_email_id"
+    t.integer "user_id"
+    t.integer "team_id"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["team_id"], name: "index_team_invites_on_team_id"
+    t.index ["user_id"], name: "index_team_invites_on_user_id"
   end
 
   create_table "team_linkers", force: :cascade do |t|
