@@ -16,6 +16,18 @@ class TeamLinkersController < ApplicationController
     end
 
     def update
+        puts "### In team linker update function ! ###"
+        puts params
+        @team_linker = TeamLinker.find(params[:id])
+        if @team_linker.update(team_linker_params)
+            puts "### Team linker updated successfully ###"
+            redirect_to team_path(@team_linker.team.id)
+        end
+    end
 
+    private
+
+    def team_linker_params
+      params.permit(:user_id, :node_id, :id)
     end
 end

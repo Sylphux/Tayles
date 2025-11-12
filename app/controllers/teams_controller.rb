@@ -8,12 +8,16 @@ class TeamsController < ApplicationController
   def show
     @team = Team.find(params[:id])
     @owned = team_belongs_to_user(@team)
-    @available_characters = []
+    @available_characters = [] # simple liste de characters dispos
+    @dropdown_chars = [] # pret à utiliser dans le dropdown 
     for char in @team.world.nodes.where(node_type: "Character") do
       if char.team_linkers == []
         @available_characters.push(char)
+        @dropdown_chars.push([char.node_title, char.id])
       end
     end
+
+
   end
 
   # GET /teams/new
