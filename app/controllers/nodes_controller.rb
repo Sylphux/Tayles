@@ -103,10 +103,12 @@ class NodesController < ApplicationController
       end
     else
       params_set = node_params
-      world_params = {world_name: params_set[:node_title], description: params_set[:public_description]}
 
-      if @node.world.update(world_params)
-        puts "### World params updated with node ###"
+      if @node.node_type == "World"
+        world_params = {world_name: params_set[:node_title], description: params_set[:public_description]}
+        if @node.world.update(world_params)
+          puts "### World params updated with node ###"
+        end
       end
 
       respond_to do |format|
