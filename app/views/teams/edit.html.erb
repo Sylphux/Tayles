@@ -1,12 +1,19 @@
 <% content_for :title, "Editing team" %>
 
-<h1>Editing team</h1>
+<section class="wide-section-small">
+  <div class="section-content">
+    <h1>Edit <a href="<%=team_path(@team)%>"><%=@team.name%></a></h1>
+  </div>
+</section>
 
-<%= render "form", team: @team %>
+<section>
+  <div class="section-content">
+    <%= render "edit_form", team: @team %>
+  </div>
+</section>
 
-<br>
-
-<div>
-  <%= link_to "Show this team", @team %> |
-  <%= link_to "Back to teams", teams_path %>
-</div>
+<section class="wide-section">
+  <div class="section-content">
+    <%= link_to "Show this team", @team %>
+  </div>
+</section>

@@ -3,9 +3,6 @@ class TeamsController < ApplicationController
   before_action :verify_show_access, only: [:show]
 
   # GET /teams or /teams.json
-  def index
-    @teams = Team.all
-  end
 
   # GET /teams/1 or /teams/1.json
   def show
@@ -52,12 +49,31 @@ class TeamsController < ApplicationController
 
   # DELETE /teams/1 or /teams/1.json
   def destroy
-    @team.destroy!
+    puts "### Destroy team ###"
+    puts params
 
-    respond_to do |format|
-      format.html { redirect_to teams_path, notice: "Team was successfully destroyed.", status: :see_other }
-      format.json { head :no_content }
+    team_world = @team.world.node
+
+    for invite in @team.team_invites do
+      invite.destroy!
+      puts "### Destroyed invites ###"
     end
+
+    for link in @team.team_linkers do
+      link.destroy!
+      puts "### Destroyed links ###"
+    end
+
+    if @team.destroy!
+      redirect_to node_path(team_world.id)
+    end
+
+    # @team.destroy!
+
+    # respond_to do |format|
+    #   format.html { redirect_to teams_path, notice: "Team was successfully destroyed.", status: :see_other }
+    #   format.json { head :no_content }
+    # end
   end
 
   private

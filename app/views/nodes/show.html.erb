@@ -9,6 +9,9 @@
     <h2>Description</h2>
     <p>
       Node type : <strong><%=@node.node_type%></strong><br>
+      <%if @node.team_linkers != []%>
+        Character belongs to : <strong><%=@node.team_linkers.first.user.username%></strong><br>
+      <%end%>
       <%if @node.node_type != "World"%>
         In world : <a href="<%=node_path(@node.world.node)%>"><strong><%=@node.world.world_name%></strong></a><br>
       <%end%>
@@ -83,13 +86,13 @@
   <%if relative_nodes != []%>
     <%(relative_nodes.length / max_nodes_per_group + 1).times do%> <%# colonne %>
       <div class="section-content">
-        <div class="group-list">
+        <div class="group-list-mini">
           <%max_nodes_per_group.times do%>
             <%if relative_nodes[i]%>
               <%n = relative_nodes[i]%>
               <p>
                 <strong><a href="<%=node_path(n.id)%>"><%=n.node_title%></a></strong> | <%=n.node_type%><br>
-                <small><%=shorten_text(n.public_description, 50)%></small>
+                <small><%=shorten_text(n.public_description, 40)%></small>
               </p> 
             <%end%>
             <%i += 1%>

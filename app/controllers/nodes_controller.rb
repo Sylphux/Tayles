@@ -29,16 +29,16 @@ class NodesController < ApplicationController
 
   # POST /nodes or /nodes.json
   def create
+    puts "### Create function ###"
     puts params
     node_spec = node_params
 
     if node_spec[:node_type] == "World"
-
+      puts "### World type node ###"
       node_spec[:world_id] = nil
       #on crée à la fois un node world et son object world associé avec les mêmes specs
       new_world_node = Node.new(node_spec)
       new_world = World.new(world_name: node_spec[:node_title], description: node_spec[:public_description])
-
       respond_to do |format|
         if new_world_node.save && new_world.save
           new_world.node_id = new_world_node.id
@@ -54,12 +54,31 @@ class NodesController < ApplicationController
       end
 
     else #si ce n'est pas un world mais un node commun
-
+      puts "### Common node ###"
       new_node = Node.new(node_spec)
       new_node.world_id = Node.find(node_spec[:world_id]).world_id
+      savestate = false 
+      if new_node.save
+        puts "### Success saving new node ###"
+        savestate = true
+      end
+
+      if params[:user_id]
+        puts "### Is a user character node ###"
+        savestate = false
+        for link in Team.find(params[:team_id]).team_linkers.where(user_id: params[:user_id])
+          if link.node_id == nil
+            link.node_id = new_node.id
+            if link.save && KnownNode.create(user_id: params[:user_id], node_id: new_node.id)
+              savestate = true
+              puts "### Node attributed to user in team #{link.team.name} and discovered ###"
+            end
+          end
+        end
+      end
 
       respond_to do |format|
-        if new_node.save
+        if savestate
           format.html { redirect_to node_path(new_node.id), notice: "Node was successfully created." }
         else
           format.html { render :new, status: :unprocessable_entity }
@@ -83,8 +102,15 @@ class NodesController < ApplicationController
         puts "### Team Link erased ###"
       end
     else
+      params_set = node_params
+      world_params = {world_name: params_set[:node_title], description: params_set[:public_description]}
+
+      if @node.world.update(world_params)
+        puts "### World params updated with node ###"
+      end
+
       respond_to do |format|
-        if @node.update(node_params)
+        if @node.update(params_set)
           format.html { redirect_to @node, notice: "Node was successfully updated.", status: :see_other }
           format.json { render :show, status: :ok, location: @node }
         else
@@ -98,6 +124,7 @@ class NodesController < ApplicationController
 
   # DELETE /nodes/1 or /nodes/1.json
   def destroy
+    world_node = @node.world.node
     for known in @node.known_nodes do # delete les découvertes de ce noeud
       known.destroy!
       puts "### découverte destroyed ###"
@@ -129,9 +156,14 @@ class NodesController < ApplicationController
         puts "### world destroyed ###"
       end
     end
+    type = @node.node_type
     if @node.destroy!
       puts "### Node successfully destroyed ##"
-      redirect_to :dashboard
+      if type != "World"
+        redirect_to node_path(world_node.id)
+      else
+        redirect_to :dashboard
+      end
     end
     # @node.destroy!
 

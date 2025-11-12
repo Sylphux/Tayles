@@ -34,7 +34,6 @@
   </div>
 </section>
 
-
 <%if @team.users != []%>
   <section> <%# section playters %>
     <div class="section-content">
@@ -44,11 +43,19 @@
         <%for player in @team.users do%>
           <div class="card-simple">
             <h4><%=player.username%></h4>
-            <%if playerchar = get_player_character(@team, player)%>
+            <%if playerchar = get_player_character(@team, player)%> <%# si on a un player character %>
               <p><strong>Player character : </strong><a href="<%=node_path(playerchar.id)%>"><%=playerchar.node_title%></a></p>
               <p><strong>Character description :</strong><br> <%=shorten_text(playerchar.public_description, 200)%></p>
             <%else%>
               <p>This player doesn't have a character yet.</p>
+
+              <%if current_user == player || team_belongs_to_user(@team)%> <%# si user a le droit de créer un character %>
+
+                <%= button_to "Create character", nodes_path({node: {world_id: @team.world.node.id, node_type: "Character", node_title: player.username + "'s character", public_description: "Your characters description"}, user_id: player.id, team_id: @team.id}), method: :post, class: "btn-sm btn-success"%>
+
+              <%end%>
+
+
             <%end%>
             <%if @owned%>
               <%= button_to "Remove", team_linker_path(TeamLinker.where(team: @team, user: player).first.id), method: :delete, class: "btn-sm btn-danger"%>
@@ -63,8 +70,8 @@
   <section class="wide-section">
     <div class="section-content">
       <div>
-        <%= link_to "Edit this team", edit_team_path(@team) %> |
-        <%= link_to "Destroy this team", @team, method: :delete %>
+        <%= link_to "Edit this team", edit_team_path(@team.id) %> |
+        <%= link_to "Destroy this team", team_path(@team), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?'} %>
       </div>
     </div>
   </section>
