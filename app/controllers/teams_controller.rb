@@ -8,6 +8,12 @@ class TeamsController < ApplicationController
   def show
     @team = Team.find(params[:id])
     @owned = team_belongs_to_user(@team)
+    @available_characters = []
+    for char in @team.world.nodes.where(node_type: "Character") do
+      if char.team_linkers == []
+        @available_characters.push(char)
+      end
+    end
   end
 
   # GET /teams/new

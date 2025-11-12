@@ -101,6 +101,7 @@ class NodesController < ApplicationController
         team_link.save
         puts "### Team Link erased ###"
       end
+      redirect_to @node
     else
       params_set = node_params
 
