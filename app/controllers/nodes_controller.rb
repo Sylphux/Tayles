@@ -10,8 +10,8 @@ class NodesController < ApplicationController
   # GET /nodes/1 or /nodes/1.json
   def show
     @node = Node.find(params[:id])
-    @posessed = node_belongs_to_user?(@node)
-    if @posessed
+    @user_can_edit = node_edit_perm(@node)
+    if @user_can_edit
       @node_secrets = @node.secrets
     else
       @node_secrets = grab_known_secrets(@node)
@@ -26,10 +26,6 @@ class NodesController < ApplicationController
   # GET /nodes/1/edit
   def edit
   end
-
-
-
-
 
   # POST /nodes or /nodes.json
   def create
@@ -75,28 +71,74 @@ class NodesController < ApplicationController
 
   end
 
-
   # PATCH/PUT /nodes/1 or /nodes/1.json
   def update
-    respond_to do |format|
-      if @node.update(node_params)
-        format.html { redirect_to @node, notice: "Node was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @node }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @node.errors, status: :unprocessable_entity }
+    puts "### in patch ###"
+    puts params
+    if params[:node_action] == "Dissociate" # dissociation de user et personnage
+      puts "### Dissociate action ###"
+      for team_link in @node.team_linkers do
+        team_link.node_id = nil
+        team_link.save
+        puts "### Team Link erased ###"
+      end
+    else
+      respond_to do |format|
+        if @node.update(node_params)
+          format.html { redirect_to @node, notice: "Node was successfully updated.", status: :see_other }
+          format.json { render :show, status: :ok, location: @node }
+        else
+          format.html { render :edit, status: :unprocessable_entity }
+          format.json { render json: @node.errors, status: :unprocessable_entity }
+        end
       end
     end
+
   end
 
   # DELETE /nodes/1 or /nodes/1.json
   def destroy
-    @node.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to nodes_path, notice: "Node was successfully destroyed.", status: :see_other }
-      format.json { head :no_content }
+    for known in @node.known_nodes do # delete les découvertes de ce noeud
+      known.destroy!
+      puts "### découverte destroyed ###"
     end
+    if @node.node_type == "Character"
+      for team_link in @node.team_linkers do # delete les associations avec des joueurs si personnage
+        team_link.node_id = nil
+        team_link.save
+        puts "### Team Link erased ###"
+      end
+    end
+    if @node.node_type == "World" # si le node est une monde
+      for ownership in @node.world.world_owners do # On delete les ownership
+        ownership.destroy!
+      end
+      the_world = @node.world
+      for team in the_world.teams do # on delete les teams du monde et les invitations en cours
+        for invite in team.team_invites do
+          invite.destroy!
+          puts "### Invite destroyed ###"
+        end
+        team.destroy!
+        puts "### Team destroyed ##"
+      end
+      the_world.node_id = nil # dissociation world et node
+      @node.world_id = nil # dissociation world et node
+      if the_world.save && @node.save # si dissociation réussie
+        the_world.destroy!
+        puts "### world destroyed ###"
+      end
+    end
+    if @node.destroy!
+      puts "### Node successfully destroyed ##"
+      redirect_to :dashboard
+    end
+    # @node.destroy!
+
+    # respond_to do |format|
+    #   format.html { redirect_to nodes_path, notice: "Node was successfully destroyed.", status: :see_other }
+    #   format.json { head :no_content }
+    # end
   end
 
   private

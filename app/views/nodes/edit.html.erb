@@ -1,12 +1,20 @@
 <% content_for :title, "Editing node" %>
 
-<h1>Editing node</h1>
+<section class="wide-section-small">
+  <div class="section-content">
+    <h1>Edit <a href="<%=node_path(@node.id)%>"><%=@node.node_title.capitalize%></a></h1>
+  </div>
+</section>
 
-<%= render "form", node: @node %>
 
-<br>
+<section class="wide-section">
+  <div class="section-content">
+    <%= render "edit_form", node: @node %>
+  </div>
+</section>
 
-<div>
-  <%= link_to "Show this node", @node %> |
-  <%= link_to "Back to nodes", nodes_path %>
-</div>
+<section>
+  <div class="section-content">
+    <%= link_to "Back to reading mode", node_path(@node.id) %>
+  </div>
+</section>

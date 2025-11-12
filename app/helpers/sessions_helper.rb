@@ -3,7 +3,23 @@ module SessionsHelper
         if s.length > n
             return (s[0..n-3] + "...")
         end
-        s
+        return s
+    end
+
+    def node_edit_perm(node) # can current user edit this node or not ?
+        # si créateur du node
+        for world in current_user.worlds
+            if node.world == world
+                return true
+            end
+        end
+        # si player character
+        for team_link in current_user.team_linkers do
+            if node == team_link.node
+                return true
+            end
+        end
+        return false
     end
 
     def explored_worlds
@@ -60,15 +76,7 @@ module SessionsHelper
         return false
     end
 
-    def node_discovered_on(n) # gives the date node was revealed to current user
-        # for x in n.known_nodes
-        #     if x.user == current_user
-        #         return x.created_at
-        #     else
-        #         return "(Error : User not found in known nodes)"
-        #     end
-        # end
-        # "(Error : No known nodes)"
+    def node_discovered_on(n) # gives the date node was revealed to 
         for known in KnownNode.where(node: n, user: current_user)
             return known.created_at
         end

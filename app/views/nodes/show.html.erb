@@ -1,6 +1,6 @@
 <section class="wide-section-small">
   <div class="section-content">
-    <h1><%=@node.node_title%></h1>
+    <h1><%=@node.node_title.capitalize%></h1>
   </div>
 </section>
 
@@ -9,14 +9,17 @@
     <h2>Description</h2>
     <p>
       Node type : <strong><%=@node.node_type%></strong><br>
-      In world : <a href="<%=node_path(@node.world.node)%>"><strong><%=@node.world.world_name%></strong></a><br>
-      <%if @posessed%> <%# verifie que le node n'est pas possédé avant d'afficherr les infos d'explorateur. @posessed est défini dans le controller %>
+      <%if @node.node_type != "World"%>
+        In world : <a href="<%=node_path(@node.world.node)%>"><strong><%=@node.world.world_name%></strong></a><br>
+      <%end%>
+      <%if @user_can_edit%> <%# verifie que le node n'est pas possédé avant d'afficherr les infos d'explorateur. @user_can_edit est défini dans le controller %>
         <%if @node.node_type == "World"%>
           You are : <strong>The owner of the world</strong><br>
         <%end%>
       <%else%>
         <%if @node.node_type == "World"%>
-          You are : <strong>An explorer</strong><br>
+          Created by : <strong><%=@node.world.users.first.username%></a></strong><br>
+          You are : <strong>An explorer of this world</strong><br>
         <%end%>
         Discovered on : <strong><%= node_discovered_on(@node)%></strong><br>
         Discovered with : <strong> <a href="<%=team_path(user_team(@node).id)%>"><%= user_team(@node).name%></a></strong><br>
@@ -26,10 +29,11 @@
   </div>
 </section>
 
-<%if @posessed%> <%# section où on peut manage des trucs par rapport au node %>
+<%if @user_can_edit%> <%# section où on peut manage des trucs par rapport au node %>
   <section>
     <div class="section-content">
       <h2>Management panel</h2>
+        <%= link_to "New secret for this node", new_secret_path({node_id: @node.id}) %><br>
       <%if @node.node_type == "World"%>
         <p>Create a new node :</p>
         <%for t in ntypes do%>
@@ -42,8 +46,13 @@
         <strong><%= link_to "New team", new_team_path({world_id: @node.id}) %></strong><br>
       <%end%>
       <p>Settings :</p>
-      <%= link_to "Edit this node", edit_node_path(@node) %><br>
-      <%= link_to "Destroy this node (don't)", @node, method: :delete %>
+      <%= link_to "Edit this node", edit_node_path(@node.id) %><br>
+      <%if @node.node_type != "World"%>
+        <%= link_to "Destroy this node", node_path(@node.id), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?'}%><br>
+      <%end%>
+      <%if @node.node_type == "Character" && @node.team_linkers != [] %>
+        <%= link_to "Dissociate character from user", node_path(@node.id, {node_action: "Dissociate"}), data: { turbo_method: :patch, turbo_confirm: 'Are you sure ?'} %><br>
+      <%end%>
     </div>
   </section>
 <%end%>
@@ -51,7 +60,7 @@
 <%if @node_secrets != []%> <%# si il y a des secrets à afficher, défini dans le controller %>
   <section class="wide-section-small">
     <div class="section-content">
-      <%if @posessed%>
+      <%if @user_can_edit%>
         <h2>All secrets</h2>
       <%else%>
         <h2>Known secrets</h2>
@@ -95,3 +104,10 @@
   <%end%>
 
 </section>
+<%if @node.node_type == "World" && @user_can_edit%>
+  <section>
+    <div class="section-content">
+      <%= link_to "Destroy world permanently", node_path(@node.id), data: { turbo_method: :delete, turbo_confirm: 'Are you sure? There is no going back.'}%><br>
+    </div>
+  </section>
+<%end%>
