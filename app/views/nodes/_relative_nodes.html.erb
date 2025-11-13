@@ -1,0 +1,33 @@
+<section class="wide-section vert-center">
+  <div class="section-content">
+    <h2 id="nodes">Relative nodes</h2>
+  </div>
+
+  <%counter = 0%>
+  <%i = 0%>
+  <%relative_nodes = get_known_relative_nodes(@node)%>
+  <%max_nodes_per_group = 10%>
+  <%if relative_nodes != []%>
+    <%(relative_nodes.length / max_nodes_per_group + 1).times do%> <%# colonne %>
+      <div class="section-content">
+        <div class="group-list-mini">
+          <%max_nodes_per_group.times do%>
+            <%if relative_nodes[i]%>
+              <%n = relative_nodes[i]%>
+              <p>
+                <strong><a href="<%=node_path(n.id)%>"><%=n.node_title%></a></strong> | <%=n.node_type%> | <small><%=n.users.count%> knowers</small><br>
+                <small><%=shorten_text(n.public_description, 40)%></small>
+              </p> 
+            <%end%>
+            <%i += 1%>
+          <%end%>
+        </div>
+      </div>
+    <%end%>
+  <%else%>
+    <div class="section-content">
+      <p>No nodes yet.</p>
+    </div>
+  <%end%>
+
+</section>

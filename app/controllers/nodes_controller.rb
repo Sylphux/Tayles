@@ -10,12 +10,42 @@ class NodesController < ApplicationController
   # GET /nodes/1 or /nodes/1.json
   def show
     @node = Node.find(params[:id])
+    @owned = node_belongs_to_user?(@node)
     @user_can_edit = node_edit_perm(@node)
     if @user_can_edit
       @node_secrets = @node.secrets
     else
       @node_secrets = grab_known_secrets(@node)
     end
+    @node_unknowing = []
+    @node_knowing = []
+    @node_unknowing_teams = []
+    if @owned
+      @teams = @node.world.teams
+      @node_unknowing = has_not_discovered_node(@node)
+      @node_knowing = @node.users
+    else
+      @teams = current_user.teams.where(world: @node.world)
+      for team in @teams do
+        for user in team.users do
+          if user.nodes.include? @node
+            @node_knowing.push(user)
+          else
+            @node_unknowing.push(user)
+          end
+        end
+      end
+    end
+    
+    for team in @teams do
+      for user in team.users do
+        if !(user.nodes.include? @node)
+          @node_unknowing_teams.push(team)
+          break
+        end
+      end
+    end
+
   end
 
   # GET /nodes/new

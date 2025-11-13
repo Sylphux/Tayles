@@ -1,0 +1,27 @@
+<section>
+  <div class="section-content">
+    <h2>Description</h2>
+    <p>
+      Node type : <strong><%=@node.node_type%></strong><br>
+      <%if @node.team_linkers != []%>
+        Character belongs to : <strong><%=@node.team_linkers.first.user.username%></strong><br>
+      <%end%>
+      <%if @node.node_type != "World"%>
+        In world : <a href="<%=node_path(@node.world.node)%>"><strong><%=@node.world.world_name%></strong></a><br>
+      <%end%>
+      <%if @user_can_edit%>
+        <%if @node.node_type == "World"%>
+          You are : <strong>The owner of the world</strong><br>
+        <%end%>
+      <%else%>
+        <%if @node.node_type == "World"%>
+          Created by : <strong><%=@node.world.users.first.username%></a></strong><br>
+          You are : <strong>An explorer of this world</strong><br>
+        <%end%>
+        Discovered on : <strong><%= node_discovered_on(@node)%></strong><br>
+        Discovered with : <strong> <a href="<%=team_path(user_team(@node).id)%>"><%= user_team(@node).name%></a></strong><br>
+      <%end%>
+    </p>
+    <p><%=@node.public_description%></p>
+  </div>
+</section>

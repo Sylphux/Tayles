@@ -4,109 +4,14 @@
   </div>
 </section>
 
-<section>
-  <div class="section-content">
-    <h2>Description</h2>
-    <p>
-      Node type : <strong><%=@node.node_type%></strong><br>
-      <%if @node.team_linkers != []%>
-        Character belongs to : <strong><%=@node.team_linkers.first.user.username%></strong><br>
-      <%end%>
-      <%if @node.node_type != "World"%>
-        In world : <a href="<%=node_path(@node.world.node)%>"><strong><%=@node.world.world_name%></strong></a><br>
-      <%end%>
-      <%if @user_can_edit%> <%# verifie que le node n'est pas possédé avant d'afficherr les infos d'explorateur. @user_can_edit est défini dans le controller %>
-        <%if @node.node_type == "World"%>
-          You are : <strong>The owner of the world</strong><br>
-        <%end%>
-      <%else%>
-        <%if @node.node_type == "World"%>
-          Created by : <strong><%=@node.world.users.first.username%></a></strong><br>
-          You are : <strong>An explorer of this world</strong><br>
-        <%end%>
-        Discovered on : <strong><%= node_discovered_on(@node)%></strong><br>
-        Discovered with : <strong> <a href="<%=team_path(user_team(@node).id)%>"><%= user_team(@node).name%></a></strong><br>
-      <%end%>
-    </p>
-    <p><%=@node.public_description%></p>
-  </div>
-</section>
+<%=render "node_description"%>
 
-<%if @user_can_edit%> <%# section où on peut manage des trucs par rapport au node %>
-  <section>
-    <div class="section-content">
-      <h2>Management panel</h2>
-        <%= link_to "New secret for this node", new_secret_path({node_id: @node.id}) %><br>
-      <%if @node.node_type == "World"%>
-        <p>Create a new node :</p>
-        <%for t in ntypes do%>
-          <%= link_to "New #{t}", new_node_path({node_type: t, world_id: @node.id}) %><br>
-        <%end%>
-        <p>Manage teams :</p>
-        <%for team in @node.world.teams do%>
-          <%= link_to team.name, team_path(team.id) %><br>
-        <%end%>
-        <strong><%= link_to "New team", new_team_path({world_id: @node.id}) %></strong><br>
-      <%end%>
-      <p>Settings :</p>
-      <%= link_to "Edit this node", edit_node_path(@node.id) %><br>
-      <%if @node.node_type != "World"%>
-        <%= link_to "Destroy this node", node_path(@node.id), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?'}%><br>
-      <%end%>
-      <%if @node.node_type == "Character" && @node.team_linkers != [] %>
-        <%= link_to "Dissociate character from user", node_path(@node.id, {node_action: "Dissociate"}), data: { turbo_method: :patch, turbo_confirm: 'Are you sure ?'} %><br>
-      <%end%>
-    </div>
-  </section>
-<%end%>
+<%=render "management_panel"%>
 
-<%if @node_secrets != []%> <%# si il y a des secrets à afficher, défini dans le controller %>
-  <section class="wide-section-small">
-    <div class="section-content">
-      <%if @user_can_edit%>
-        <h2>All secrets</h2>
-      <%else%>
-        <h2>Known secrets</h2>
-      <%end%>
+<%=render "node_secrets"%>
 
-    </div>
-  </section>
-  <%= render "show_secret"%>
-<%end%>
+<%=render "relative_nodes"%>
 
-<section class="wide-section vert-center">
-  <div class="section-content">
-    <h2 id="nodes">Relative nodes</h2>
-  </div>
-
-  <%counter = 0%>
-  <%i = 0%>
-  <%relative_nodes = get_known_relative_nodes(@node)%>
-  <%max_nodes_per_group = 10%>
-  <%if relative_nodes != []%>
-    <%(relative_nodes.length / max_nodes_per_group + 1).times do%> <%# colonne %>
-      <div class="section-content">
-        <div class="group-list-mini">
-          <%max_nodes_per_group.times do%>
-            <%if relative_nodes[i]%>
-              <%n = relative_nodes[i]%>
-              <p>
-                <strong><a href="<%=node_path(n.id)%>"><%=n.node_title%></a></strong> | <%=n.node_type%><br>
-                <small><%=shorten_text(n.public_description, 40)%></small>
-              </p> 
-            <%end%>
-            <%i += 1%>
-          <%end%>
-        </div>
-      </div>
-    <%end%>
-  <%else%>
-    <div class="section-content">
-      <p>No nodes yet.</p>
-    </div>
-  <%end%>
-
-</section>
 <%if @node.node_type == "World" && @user_can_edit%>
   <section>
     <div class="section-content">

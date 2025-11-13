@@ -1,0 +1,82 @@
+<section>
+  <div class="section-content">
+    <h2>Management panel</h2>
+      <%if @user_can_edit%> <%# section où on peut manage des trucs par rapport au node %>
+        <%= link_to "New secret for this node", new_secret_path({node_id: @node.id}) %><br>
+        <%if @node.node_type == "World"%>
+          <p>Create a new node :</p>
+          <%for t in ntypes do%>
+            <%= link_to "New #{t}", new_node_path({node_type: t, world_id: @node.id}) %><br>
+          <%end%>
+          <p>Manage teams :</p>
+          <%for team in @node.world.teams do%>
+            <%= link_to team.name, team_path(team.id) %><br>
+          <%end%>
+          <strong><%= link_to "New team", new_team_path({world_id: @node.id}) %></strong><br>
+        <%end%>
+        <p>Settings :</p>
+        <%= link_to "Edit this node", edit_node_path(@node.id) %><br>
+        <%if @node.node_type != "World"%>
+          <%= link_to "Destroy this node", node_path(@node.id), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?'}%><br>
+        <%end%>
+        <%if @node.node_type == "Character" && @node.team_linkers != [] %>
+          <%= link_to "Dissociate character from user", node_path(@node.id, {node_action: "Dissociate"}), data: { turbo_method: :patch, turbo_confirm: 'Are you sure ?'} %><br>
+        <%end%>
+      <%end%>
+
+      <%if @node_knowing != [] || @teams != [] || @node_unknowing != []%>
+        <p><strong>Node sharing :</strong></p>
+      <%end%>
+
+      <%if @node_knowing != []%>
+        <p>Who knows the node : </p>
+        <div class="mini-item-card">
+          <%for user in @node_knowing do%>
+            <div class="mini-item-box">
+              <div class="mini-item-text">
+                <small>
+                    <%=user.username%>
+                </small>
+              </div>
+              <%if @owned && @node.node_type != "World"%>
+                <div class="mini-item-button">
+                  <%= link_to "x", known_node_path(KnownNode.where(user: user, node: @node).first), data: { turbo_method: :delete}%><br>
+                </div>
+              <%end%>
+            </div>
+          <%end%>
+        </div>
+      <%end%>
+
+      <%if @node_unknowing_teams != []%>
+        <p>Reveal to whole team : </p>
+        <div class="mini-item-card">
+          <%for team in @node_unknowing_teams do%>
+            <div class="mini-item-box">
+              <div class="mini-item-text">
+                <small>
+                <%= link_to team.name, known_nodes_path({team_id: team.id, node_id: @node.id}), data: { turbo_method: :post}%>
+                </small>
+              </div>
+            </div>
+          <%end%>
+        </div>
+      <%end%>
+
+      <%if @node_unknowing != [] %>
+        <p>Reveal to users : </p>
+        <div class="mini-item-card">
+          <%for user in @node_unknowing do%>
+            <div class="mini-item-box">
+              <div class="mini-item-text">
+                <small>
+                  <%= link_to user.username, known_nodes_path({node_id: @node.id, user_id: user.id}), data: {turbo_method: :post}%>
+                </small>
+              </div>
+            </div>
+          <%end%>
+        </div>
+      <%end%>
+
+    </div>
+  </section>

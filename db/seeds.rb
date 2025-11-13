@@ -22,10 +22,10 @@ Node.destroy_all
 User.destroy_all
 
 number_of_worlds = 15
-number_of_users = 5
-number_of_random_nodes = 60
-number_of_secrets = 200
-number_of_teams = 4
+number_of_users = 8
+number_of_random_nodes = 300
+number_of_secrets = 600
+number_of_teams = 10
 
 puts 'Creating users'
 number_of_users.times do

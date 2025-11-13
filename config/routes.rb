@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :teams
   resources :team_invites
   resources :team_linkers
+  resources :known_nodes
   devise_for :users, controllers: { registrations: "users/registrations" }
   get "/home", to: "static#home"
   get "/dashboard", to: "static#dashboard"

@@ -424,6 +424,32 @@ blockquote {
     max-width: 25rem;
 }
 
+.mini-item-card {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.mini-item-box {
+    display: flex;
+}
+
+.mini-item-text {
+    background-color: var(--bg-dark);
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.mini-item-button {
+    background-color: var(--bg-very-dark);
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    padding-right: 4px;
+    padding-left: 4px;
+}
+
 ul, ol {
     margin-bottom: 1rem;
     padding-left: 1rem;

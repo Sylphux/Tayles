@@ -115,10 +115,22 @@ module SessionsHelper
         nil
     end
 
-    def get_known_relative_nodes(n) # gets known nodes relative to the input one
+    def has_not_discovered_node(node) # return les membres des teams du monde qui n'ont pas encore découvert le node
+        result = []
+        for team in node.world.teams
+            for user in team.users do
+                if user.nodes.where(id: node.id) == []
+                    result.push(user)
+                end
+            end
+        end
+        result
+    end
+
+    def get_known_relative_nodes(node) # gets known nodes relative to the input one
         all_nodes = []
-        for n in n.world.nodes do
-            if n.node_type != "World"
+        for n in node.world.nodes do
+            if n != node
                 if node_belongs_to_user?(n)
                     all_nodes.push(n)
                 elsif node_is_known?(n)
