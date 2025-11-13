@@ -6,7 +6,7 @@
             <strong>Your world.</strong>
             <%else%>
             <strong>Explored world.</strong><br>
-            Explored with : <strong><a href="<%=team_path(user_team(w).id)%>"><%=user_team(w).name%></a><br></strong>
+            Explored with : <strong><a href="<%=team_path(user_teams(w).first.id)%>"><%=user_teams(w).first.name%></a><br></strong>
             Joined on : <%=node_discovered_on(w)%><br>
             <% mychar = my_character(w) %>
             <% if mychar != nil %>

@@ -39,6 +39,18 @@ module SessionsHelper
         false
     end
 
+    def who_knows_secret_in_teams(secret, teams)
+        result = []
+        for team in teams do
+            for user in team.users do
+                if user.secrets.include? secret
+                    result.push(user)
+                end
+            end
+        end
+        return result
+    end
+
     def get_player_character(t, u) # gets a players character node (t is team and u is user)
         if u.team_linkers.where(team_id: t.id).first.node
             return u.team_linkers.where(team_id: t.id).first.node
@@ -83,14 +95,15 @@ module SessionsHelper
         return "Not discovered yet."
     end
 
-    def user_team(n) # returns the team on which user is exploring the world
-        for t in n.world.teams do
-            for u in t.users do
-                if u == current_user
-                    return t
-                end
-            end
-        end
+    def user_teams(n) # returns the team on which user is exploring the world
+        # for t in n.world.teams do
+        #     for u in t.users do
+        #         if u == current_user
+        #             return t
+        #         end
+        #     end
+        # end
+        current_user.teams.where(world_id: n.world.id)
     end
 
     def grab_known_secrets(n)
@@ -106,7 +119,7 @@ module SessionsHelper
     end
 
     def my_character(n) # gets user character for this node
-        team = user_team(n)
+        team = user_teams(n).first
         for g in team.team_linkers do
             if current_user == g.user
                 return g.node

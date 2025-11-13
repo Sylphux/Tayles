@@ -7,7 +7,7 @@ class TeamInvitesController < ApplicationController
                 if !Team.find(params[:team_id]).users.include? User.where(email: params[:email]).first #vérifie que l'user est tout de même pas déjà dans la team (à cause du seed)
                     puts "## Team seems to belong to user ##"
                     invite = TeamInvite.new(invited_email_id: params[:email], user: current_user, team_id: params[:team_id], status: "Pending")
-                    if invite.save
+                    if invite.invited_email_id != current_user.email && invite.save
                         puts "### Team invite saved successfully ##"
                         redirect_to team_path(invite.team.id)
                     else

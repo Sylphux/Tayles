@@ -19,7 +19,7 @@
           You are : <strong>An explorer of this world</strong><br>
         <%end%>
         Discovered on : <strong><%= node_discovered_on(@node)%></strong><br>
-        Discovered with : <strong> <a href="<%=team_path(user_team(@node).id)%>"><%= user_team(@node).name%></a></strong><br>
+        Discovered with : <strong> <a href="<%=team_path(user_teams(@node).first.id)%>"><%= user_teams(@node).first.name%></a></strong><br>
       <%end%>
     </p>
     <p><%=@node.public_description%></p>
