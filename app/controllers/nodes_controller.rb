@@ -20,6 +20,7 @@ class NodesController < ApplicationController
     @node_unknowing = []
     @node_knowing = []
     @node_unknowing_teams = []
+    
     if @owned
       @teams = @node.world.teams
       @node_unknowing = has_not_discovered_node(@node)
@@ -29,6 +30,7 @@ class NodesController < ApplicationController
       for team in @teams do
         for user in team.users do
           if user.nodes.include? @node
+            puts "### Pushing user #{user.username} ###"
             @node_knowing.push(user)
           else
             @node_unknowing.push(user)

@@ -1,10 +1,13 @@
 Rails.application.routes.draw do
+  get "known_secrets/create"
+  get "known_secrets/destroy"
   resources :secrets
   resources :nodes
   resources :teams
   resources :team_invites
   resources :team_linkers
   resources :known_nodes
+  resources :known_secrets
   devise_for :users, controllers: { registrations: "users/registrations" }
   get "/home", to: "static#home"
   get "/dashboard", to: "static#dashboard"

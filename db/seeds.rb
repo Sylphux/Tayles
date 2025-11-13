@@ -38,7 +38,7 @@ number_of_users.times do
     )
 end
 
-puts 'Creating worlds and corresponding nodes'
+puts 'Creating worlds and world nodes'
 worldnumber = 0
 number_of_worlds.times do
     worldname = Faker::Fantasy::Tolkien.location
@@ -54,7 +54,6 @@ number_of_worlds.times do
     worldnumber += 1
 end
 
-puts 'Linking World with World nodes'
 worldnumber = 0
 number_of_worlds.times do
     myworld = World.find(World.first.id + worldnumber)
@@ -80,7 +79,7 @@ number_of_random_nodes.times do
     )
 end
 
-puts 'Creating secrets'
+puts 'Creating random secrets'
 number_of_secrets.times do
     Secret.create(
         node_id: rand(Node.first.id..Node.last.id),
@@ -99,7 +98,7 @@ number_of_teams.times do
     )
 end
 
-puts "Giving ownership of worlds to users (At least one per user)"
+puts "Giving ownership of worlds"
 i = 1
 while i <= number_of_worlds do
     if i > number_of_users
@@ -114,8 +113,8 @@ while i <= number_of_worlds do
     i += 1
 end
 
-puts "Linking secrets and users (known_secrets) and linking nodes to users (known_nodes)"
-puts " Only non possessed nodes and secrets will be linked to user"
+puts "Linking secrets and nodes to users"
+
 number_of_secrets.times do
     defined_user_id = rand(User.first.id..User.last.id)
     defined_secret_id = rand(Secret.first.id..Secret.last.id)
@@ -136,7 +135,7 @@ number_of_secrets.times do
     )
 end
 
-puts "Linking users to teams (Only users no possessing the team's world) and creating matching characters"
+puts "Linking users to teams & creating player characters"
 x = 0
 defined_user_id = User.first.id
 
@@ -179,14 +178,46 @@ number_of_teams.times do
             user_id: defined_user_id,
             node_id: Team.find(defined_team_id).world.node.id
         )
-
         defined_user_id += 1
-
-
-
-
-
     end
-
     x += 1
+end
+
+
+### Cleaning stuff doubles and wrong stuff ###
+puts "Cleaning seed sloppiness..."
+puts "- Deleting worlds with no users"
+for world in World.all do
+    if world.users == []
+        for node in world.nodes do
+            for known in node.known_nodes do
+                known.destroy!
+            end
+            for secret in node.secrets do
+                for known in secret.known_secrets do
+                    known.destroy!
+                end
+                secret.destroy!
+            end
+            world.node = nil
+            world.save
+            node.destroy!
+        end
+        for team in world.teams do
+            for link in team.team_linkers do
+                link.destroy!
+            end
+            team.destroy!
+        end
+        world.destroy!
+    end
+end
+
+puts "- Deleting duplicate KnownSecrets"
+for known in KnownSecret.all do
+    for compared_known in KnownSecret.all do
+        if known.user == compared_known.user && known.secret == compared_known.secret
+            compared_known.destroy!
+        end
+    end
 end

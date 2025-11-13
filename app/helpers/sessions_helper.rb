@@ -51,6 +51,31 @@ module SessionsHelper
         return result
     end
 
+    def teams_who_doesnt_know_secret(secret, teams)
+        result = []
+        for team in teams do
+            for user in team.users do
+                if !(user.secrets.include? secret)
+                    result.push(team)
+                    break # goes to scan next team
+                end
+            end
+        end
+        return result
+    end
+
+    def users_who_dont_know_secret(secret, teams)
+        result = []
+        for team in teams do
+            for user in team.users do # ne vérifie pas si user connait déjà le node ou pas. Donc si on débloque le secret il faut aussi débloquer le node en mm temps.
+                if !(user.secrets.include? secret)
+                    result.push(user)
+                end
+            end
+        end
+        return result
+    end
+
     def get_player_character(t, u) # gets a players character node (t is team and u is user)
         if u.team_linkers.where(team_id: t.id).first.node
             return u.team_linkers.where(team_id: t.id).first.node
