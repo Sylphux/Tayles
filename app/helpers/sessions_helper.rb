@@ -1,4 +1,7 @@
 module SessionsHelper
+
+
+
     def shorten_text(s, n) # shorten a string / text. s is the input string, n is the desired length
         if s.length > n
             return (s[0..n-3] + "...")

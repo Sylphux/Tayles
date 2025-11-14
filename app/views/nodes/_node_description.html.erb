@@ -22,6 +22,6 @@
         Discovered with : <strong> <a href="<%=team_path(user_teams(@node).first.id)%>"><%= user_teams(@node).first.name%></a></strong><br>
       <%end%>
     </p>
-    <p><%=@node.public_description%></p>
+    <div class="markdown"><%= markdown(@node.public_description)%></div>
   </div>
 </section>

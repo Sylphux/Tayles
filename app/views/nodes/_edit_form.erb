@@ -13,12 +13,12 @@
   <% end %>
 
   <div>
-    <%= form.label :node_title %>
+    <%= form.label :node_title, "Title" %>
     <%= form.text_field :node_title %>
   </div>
   <div>
-    <%= form.label :public_description %>
-    <%= form.text_area :public_description %>
+    <%= form.label :public_description, "Node description" %>
+    <%= form.text_area :public_description%>
   </div>
   <div>
     <%= form.submit %>

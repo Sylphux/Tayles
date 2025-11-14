@@ -361,6 +361,30 @@ nav a:hover {
     justify-content: end;
 }
 
+.markdown {
+    background-color: var(--bg-dark);
+    padding: 1rem;
+    border-radius: 1rem;
+    border-bottom-width: 4px;
+    border-color: var(--action-element);
+    border-bottom-style: solid;
+    border-top-style: solid;
+}
+
+.markdown h1 { font-size: 24pt;}
+.markdown h2 { font-size: 20pt;}
+.markdown h3 { font-size: 18pt;}
+.markdown h4 { font-size: 16pt;}
+.markdown h5 { font-size: 14pt;}
+.markdown h6 { font-size: 12pt;}
+
+.markdown-mini h1 { font-size: 2rem;}
+.markdown-mini h2 { font-size: 2rem;}
+.markdown-mini h3 { font-size: 2rem;}
+.markdown-mini h4 { font-size: 2rem;}
+.markdown-mini h5 { font-size: 2rem;}
+.markdown-mini h6 { font-size: 2rem;}
+
 .card-image img {
     border-radius: 1rem;
 }

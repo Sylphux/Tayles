@@ -16,7 +16,7 @@
             <%end%>
         <%end%>
         </p>
-        <blockquote class="smaller-blockquote"><%=shorten_text(w.public_description, 600)%></blockquote>
+        <blockquote class="smaller-blockquote markdown-mini"><%=markdown(shorten_text(w.public_description, 600))%></blockquote>
         <%count = count_nodes_and_secrets(w)%>
         <p><small>This world has a total of <%= count[:nodes]%> nodes and <%= count[:secrets]%> secrets.</small></p>
     </div>

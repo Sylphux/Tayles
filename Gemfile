@@ -65,3 +65,4 @@ end
 gem "faker"
 gem "devise"
 gem "table_print"
+gem "redcarpet"
