@@ -216,8 +216,29 @@ end
 puts "- Deleting duplicate KnownSecrets"
 for known in KnownSecret.all do
     for compared_known in KnownSecret.all do
+        puts "# Comparing secret #{known.secret.secret_title} to #{compared_known.secret.secret_title}"
         if known.user == compared_known.user && known.secret == compared_known.secret
             compared_known.destroy!
+        end
+    end
+end
+
+puts "- Deleting duplicate KnownNodes"
+# for known in KnownNode.all do
+#     for compared_known in KnownNode.all do
+#         puts "# Comparing node #{known.node.node_title} to #{compared_known.node.node_title}"
+#         if known.user == compared_known.user && known.node == compared_known.node
+#             compared_known.destroy!
+#             puts "## destroyed node"
+#         end
+#     end
+# end
+
+for user in User.all do
+    for node in user.nodes do
+        while KnownNode.where(user: user, node: node).count > 1
+            puts "# Multiple links with #{node.node_title} found"
+            KnownNode.where(user: user, node: node).last.destroy!
         end
     end
 end

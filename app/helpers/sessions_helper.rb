@@ -47,7 +47,9 @@ module SessionsHelper
         for team in teams do
             for user in team.users do
                 if user.secrets.include? secret
-                    result.push(user)
+                    if !(result.include? user)
+                        result.push(user)
+                    end
                 end
             end
         end
@@ -72,7 +74,9 @@ module SessionsHelper
         for team in teams do
             for user in team.users do # ne vérifie pas si user connait déjà le node ou pas. Donc si on débloque le secret il faut aussi débloquer le node en mm temps.
                 if !(user.secrets.include? secret)
-                    result.push(user)
+                    if !(result.include? user)
+                        result.push(user)
+                    end
                 end
             end
         end
@@ -161,7 +165,9 @@ module SessionsHelper
         for team in node.world.teams
             for user in team.users do
                 if user.nodes.where(id: node.id) == []
-                    result.push(user)
+                    if !(result.include? user)
+                        result.push(user)
+                    end
                 end
             end
         end

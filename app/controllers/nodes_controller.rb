@@ -25,15 +25,20 @@ class NodesController < ApplicationController
       @teams = @node.world.teams
       @node_unknowing = has_not_discovered_node(@node)
       @node_knowing = @node.users
+      puts "### For USERS WORLD : Node knowing : #{@node_knowing}###"
     else
       @teams = current_user.teams.where(world: @node.world)
       for team in @teams do
         for user in team.users do
           if user.nodes.include? @node
-            puts "### Pushing user #{user.username} ###"
-            @node_knowing.push(user)
+            if !(@node_knowing.include? user)
+              puts "### Pushing user #{user.username} ###"
+              @node_knowing.push(user)
+            end
           else
-            @node_unknowing.push(user)
+            if !(@node_unknowing.include? user)
+              @node_unknowing.push(user)
+            end
           end
         end
       end

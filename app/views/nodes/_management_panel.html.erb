@@ -38,7 +38,7 @@
                     <%=user.username%>
                 </small>
               </div>
-              <%if @owned && @node.node_type != "World"%>
+              <%if @owned%>
                 <div class="mini-item-button">
                   <%= link_to "x", known_node_path(KnownNode.where(user: user, node: @node).first), data: {turbo_method: :delete}%><br>
                 </div>
