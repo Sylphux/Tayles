@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :premia
   get "known_secrets/create"
   get "known_secrets/destroy"
   resources :secrets
@@ -13,6 +14,7 @@ Rails.application.routes.draw do
   get "/dashboard", to: "static#dashboard"
   get "/about", to: "static#about"
   get "/style", to: "static#ui_kit"
+  get "/checkout", to: "checkout#create"
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

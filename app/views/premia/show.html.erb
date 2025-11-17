@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @premium %>
+
+<div>
+  <%= link_to "Edit this premium", edit_premium_path(@premium) %> |
+  <%= link_to "Back to premia", premia_path %>
+
+  <%= button_to "Destroy this premium", @premium, method: :delete %>
+</div>
