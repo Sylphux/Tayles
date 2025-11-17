@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Premia" %>
+
+<h1>Premia</h1>
+
+<div id="premia">
+  <% @premia.each do |premium| %>
+    <%= render premium %>
+    <p>
+      <%= link_to "Show this premium", premium %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New premium", new_premium_path %>

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :premia
   get "known_secrets/create"
   get "known_secrets/destroy"
   resources :secrets

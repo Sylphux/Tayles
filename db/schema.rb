@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_11_124003) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_17_164005) do
   create_table "known_nodes", force: :cascade do |t|
     t.integer "user_id"
     t.integer "node_id"
@@ -37,6 +37,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_11_124003) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["world_id"], name: "index_nodes_on_world_id"
+  end
+
+  create_table "premia", force: :cascade do |t|
+    t.string "name"
+    t.integer "price_cents"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "secrets", force: :cascade do |t|
