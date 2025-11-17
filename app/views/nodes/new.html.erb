@@ -20,7 +20,7 @@
 </section>
 
 <section>
-  <div class="section-content">
+  <div class="form-content">
 
     <%if (type != "World" && world_id != nil) || (type == "World" && world_id == nil) %>
       <%= render "form", node: @node, type: type, world_id: world_id %>
@@ -30,3 +30,5 @@
 
   </div>
 </section>
+
+<%=render "static/md_helper"%>
