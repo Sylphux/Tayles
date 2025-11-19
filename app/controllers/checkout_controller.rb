@@ -1,6 +1,6 @@
 class CheckoutController < ApplicationController
   def create
-    item = Item.find(params[:item_id])
+    premium = Premium.first || Premium.new(name: 'Tayles Premium - Abonnement annuel', price_cents: 499)
 
     session = Stripe::Checkout::Session.create(
       payment_method_types: ['card'],
@@ -8,9 +8,9 @@ class CheckoutController < ApplicationController
         price_data: {
           currency: 'eur',
           product_data: {
-            name: item.name,
+            name: premium.name,
           },
-          unit_amount: item.price_cents,
+          unit_amount: premium.price_cents,
         },
         quantity: 1,
       }],

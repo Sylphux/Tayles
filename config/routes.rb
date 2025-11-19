@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get "/about", to: "static#about"
   get "/style", to: "static#ui_kit"
   get "/checkout", to: "checkout#create"
+  get "/premium", to: "premia#premium"
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

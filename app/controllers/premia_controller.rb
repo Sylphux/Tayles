@@ -10,6 +10,12 @@ class PremiaController < ApplicationController
   def show
   end
 
+  # GET /premium
+  # Static landing page that explains premium benefits and provides a simple checkout CTA.
+  def premium
+    # This action is intentionally simple — the view is static and uses existing CSS.
+  end
+
   # GET /premia/new
   def new
     @premium = Premium.new
