@@ -1,4 +1,4 @@
-<%= form_with(model: node) do |form| %>
+<%= form_with(model: node, class: "node-form") do |form| %>
 
   <% if node.errors.any? %>
     <div style="color: red">
@@ -13,23 +13,23 @@
   <% end %>
 
   <div>
-    <%= form.label :node_title %>
-    <%= form.text_field :node_title %>
-  </div>
-  <div>
-    <%= form.label :public_description %>
-    <%= form.text_area :public_description %>
+    <%# <%= form.label :node_title %>
+    <%= form.text_field :node_title, class: "title-input", placeholder: "Node's title" %>
   </div>
   <%if type %> <%# si un node type est passé en params, on l'utilise, sinon on demande %>
     <%= form.hidden_field :node_type, value: type %> 
   <%else%>
     <%= form.select :node_type, ntypes %> <%# ntypes est dans sessionshelper %>
   <%end%>
+  <div>
+    <%# <%= form.label :public_description %>
+    <%= form.text_area :public_description, class: "description-text-input", placeholder: "Node's description" %>
+  </div>
   <%if world_id%>
     <%= form.hidden_field :world_id, value: world_id %> 
   <%end%>
 
   <div>
-    <%= form.submit %>
+    <%= form.submit "Create Node", class: "input-btn" %>
   </div>
 <% end %>

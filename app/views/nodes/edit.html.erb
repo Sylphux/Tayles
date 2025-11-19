@@ -6,9 +6,8 @@
   </div>
 </section>
 
-
 <section class="wide-section">
-  <div class="section-content">
+  <div class="form-content">
     <%= render "edit_form", node: @node %>
   </div>
 </section>
@@ -18,3 +17,5 @@
     <%= link_to "Back to reading mode", node_path(@node.id) %>
   </div>
 </section>
+
+<%=render "static/md_helper"%>
