@@ -40,7 +40,7 @@
               </div>
               <%if @owned%>
                 <div class="mini-item-button">
-                  <%= link_to "x", known_node_path(KnownNode.where(user: user, node: @node).first), data: {turbo_method: :delete}%><br>
+                  <%= link_to "x", known_node_path(KnownNode.where(user: user, node: @node).first), data: {turbo_method: :delete, controller: "hide-on-click", action: "click->hide-on-click#hide_grandparent"}%><br>
                 </div>
               <%end%>
             </div>
@@ -55,7 +55,7 @@
             <div class="mini-item-box">
               <div class="mini-item-text">
                 <small>
-                <%= link_to team.name, known_nodes_path({team_id: team.id, node_id: @node.id}), data: { turbo_method: :post}%>
+                <%= link_to team.name, known_nodes_path({team_id: team.id, node_id: @node.id}), data: { turbo_method: :post, controller: "hide-on-click", action: "click->hide-on-click#hide"}%>
                 </small>
               </div>
             </div>
@@ -70,7 +70,7 @@
             <div class="mini-item-box">
               <div class="mini-item-text">
                 <small>
-                  <%= link_to user.username, known_nodes_path({node_id: @node.id, user_id: user.id}), data: {turbo_method: :post}%>
+                  <%= link_to user.username, known_nodes_path({node_id: @node.id, user_id: user.id}), data: {turbo_method: :post, controller: "hide-on-click", action: "click->hide-on-click#hide"}%>
                 </small>
               </div>
             </div>
