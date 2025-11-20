@@ -19,7 +19,7 @@ class KnownSecretsController < ApplicationController
       return
     end
 
-    redirect_to node_path(secret.node)
+    # redirect_to node_path(secret.node)
 
   end
 
@@ -28,7 +28,7 @@ class KnownSecretsController < ApplicationController
     node = known_secret.secret.node
     if known_secret.destroy!
       puts "### Success destroying known secret ###"
-      redirect_to node
+      # redirect_to node
     end
   end
 
