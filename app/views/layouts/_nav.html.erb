@@ -1,13 +1,5 @@
 <nav>
     <h1><a href=" <%= home_path %> ">Tayles</a></h1>
-    <% if defined?(@q) && @q.present? %>
-    <div>
-    <%= search_form_for @q do |f| %>
-        <%= f.search_field :title_or_body_cont, placeholder: "Search..." %>
-        <%= f.submit "Search!" %>
-    <% end %>
-    </div>
-    <% end %>
     <ul class="nav-menu">
         <% if user_signed_in? %>
             <li> Welcome, <%= current_user.username %></li>
