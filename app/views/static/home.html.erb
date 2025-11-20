@@ -4,11 +4,36 @@
     </div>
 </section>
 
-<section> <%# La section normale prend un espace partagé en largeur avec d'autres sections %>
-    <div class="section-content"> <%# Chaque section contient un section content pour être mis au centre et aligné à gauche. %>
-        Page d'accueil quand non connecté.
-        En gros landing page, avec se connecter / s'inscrire / commencer à voir
+<section>
+  <div class="section-content">
+    <h2>Fonctionnalités principales</h2>
+    <div class="grid">
+      <div class="card-simple">
+        <h4>Créez vos mondes</h4>
+        <p>Organisez vos univers avec des nodes : lieux, personnages, événements et objets. Tout est structuré pour faciliter votre narration.</p>
+      </div>
+      <div class="card-simple">
+        <h4>Gérez vos secrets</h4>
+        <p>Attachez des secrets à vos nodes et révélez-les progressivement à vos joueurs ou équipes au bon moment.</p>
+      </div>
+      <div class="card-simple">
+        <h4>Équipes de joueurs</h4>
+        <p>Créez des équipes, ajoutez des personnages joueurs et gérez facilement les permissions d'accès aux informations.</p>
+      </div>
     </div>
+  </div>
 </section>
 
-<%# Tout est encadré dans une div avec la classe "content" mise dans le application.html.erb %>
+<section>
+  <div class="section-content section-content-center">
+    <h2>Commencez dès maintenant</h2>
+    <p>Créez votre compte gratuitement et commencez à bâtir votre premier monde.</p>
+    <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1rem;">
+      <%= link_to "S'inscrire", new_user_registration_path, class: "btn-primary", style: "display: inline-block; text-decoration: none; padding: 1rem 2rem; border-radius: 1rem; background-color: var(--action-element); color: var(--bg-dark);" %>
+      <%= link_to "Se connecter", new_user_session_path, style: "display: inline-block; text-decoration: none; padding: 1rem 2rem; border-radius: 1rem; background-color: var(--bg-very-dark); color: var(--item-white);" %>
+    </div>
+    <p style="margin-top: 2rem; font-size: 0.9rem;">
+      <%= link_to "En savoir plus sur nos offres Premium", "/premium" %> pour créer des mondes illimités.
+    </p>
+  </div>
+</section>

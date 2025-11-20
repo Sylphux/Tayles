@@ -70,3 +70,5 @@ gem "redcarpet"
 gem "dotenv-rails", "~> 3.1"
 
 gem "stripe", "~> 17.2"
+
+gem "ransack", "~> 4.4"
