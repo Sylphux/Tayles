@@ -27,12 +27,14 @@
 <section>
   <div class="section-content section-content-center">
     <h2>Commencez dès maintenant</h2>
-    <p>Créez votre compte gratuitement et commencez à bâtir votre premier monde.</p>
+    <p style="margin-top: 2rem; text-align: center;">
+        Créez votre compte gratuitement et commencez à bâtir votre premier monde.
+    </p>
     <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1rem;">
       <%= link_to "S'inscrire", new_user_registration_path, class: "btn-primary", style: "display: inline-block; text-decoration: none; padding: 1rem 2rem; border-radius: 1rem; background-color: var(--action-element); color: var(--bg-dark);" %>
       <%= link_to "Se connecter", new_user_session_path, style: "display: inline-block; text-decoration: none; padding: 1rem 2rem; border-radius: 1rem; background-color: var(--bg-very-dark); color: var(--item-white);" %>
     </div>
-    <p style="margin-top: 2rem; font-size: 0.9rem;">
+    <p style="margin-top: 2rem; font-size: 0.9rem; text-align: center;">
       <%= link_to "En savoir plus sur nos offres Premium", "/premium" %> pour créer des mondes illimités.
     </p>
   </div>

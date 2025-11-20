@@ -4,7 +4,8 @@ class NodesController < ApplicationController
 
   # GET /nodes or /nodes.json
   def index
-    @nodes = Node.all
+    @q = Node.ransack(params[:q])
+    @nodes = @q.result(distinct: true)
   end
 
   # GET /nodes/1 or /nodes/1.json
