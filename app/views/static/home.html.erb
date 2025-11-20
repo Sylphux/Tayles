@@ -1,41 +1,45 @@
-<section class="wide-section"> <%# La classe wide section prend toute la largeur de l'écran. On peut en faire une convention pour le titre des pages maybe ? %>
+<section class="wide-section"> <%# The wide-section class takes up the full width of the screen. Maybe we can make it a convention for page titles? %>
     <div class="section-content">
-        <h1>Bienvenue sur Tayles</h1>
+        <h1>Welcome to Tayles</h1>
     </div>
 </section>
-
 <section>
   <div class="section-content">
-    <h2>Fonctionnalités principales</h2>
+    <h2>Main Features</h2>
     <div class="grid">
       <div class="card-simple">
-        <h4>Créez vos mondes</h4>
-        <p>Organisez vos univers avec des nodes : lieux, personnages, événements et objets. Tout est structuré pour faciliter votre narration.</p>
+        <h4>Create Your Worlds</h4>
+        <p>Organize your universes with nodes: locations, characters, events, and objects. Everything is structured to make storytelling easier.</p>
       </div>
       <div class="card-simple">
-        <h4>Gérez vos secrets</h4>
-        <p>Attachez des secrets à vos nodes et révélez-les progressivement à vos joueurs ou équipes au bon moment.</p>
+        <h4>Manage Your Secrets</h4>
+        <p>Attach secrets to your nodes and reveal them gradually to your players or teams at the right time.</p>
       </div>
       <div class="card-simple">
-        <h4>Équipes de joueurs</h4>
-        <p>Créez des équipes, ajoutez des personnages joueurs et gérez facilement les permissions d'accès aux informations.</p>
+        <h4>Player Teams</h4>
+        <p>Create teams, add player characters, and easily manage access permissions to information.</p>
       </div>
     </div>
   </div>
 </section>
-
 <section>
   <div class="section-content-center">
-    <h2>Commencez dès maintenant</h2>
+    <h2>Get Started Now</h2>
+    <p>Create your account for free and start building your first world.</p>
+    <h2>Start now</h2>
     <p style="margin-top: 2rem; text-align: center;">
-        Créez votre compte gratuitement et commencez à bâtir votre premier monde.
+        Create an account and start building your world.
     </p>
     <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1rem;">
-      <%= link_to "S'inscrire", new_user_registration_path, class: "btn-primary", style: "display: inline-block; text-decoration: none; padding: 1rem 2rem; border-radius: 1rem; background-color: var(--action-element); color: var(--bg-dark);" %>
-      <%= link_to "Se connecter", new_user_session_path, style: "display: inline-block; text-decoration: none; padding: 1rem 2rem; border-radius: 1rem; background-color: var(--bg-very-dark); color: var(--item-white);" %>
+      <%= link_to "Sign Up", new_user_registration_path, class: "btn-primary", style: "display: inline-block; text-decoration: none; padding: 1rem 2rem; border-radius: 1rem; background-color: var(--action-element); color: var(--bg-dark);" %>
+      <%= link_to "Log In", new_user_session_path, style: "display: inline-block; text-decoration: none; padding: 1rem 2rem; border-radius: 1rem; background-color: var(--bg-very-dark); color: var(--item-white);" %>
     </div>
     <p style="margin-top: 2rem; font-size: 0.9rem; text-align: center;">
-      <%= link_to "En savoir plus sur nos offres Premium", "/premium" %> pour créer des mondes illimités.
+      <%if current_user%>
+        <%= link_to "Learn more about our Premium offers", "/premium" %> to create unlimited worlds.
+      <%else%>
+        <%= link_to "Learn more about our Premium offers", "/users/sign_up" %> to create unlimited worlds.
+      <%end%>
     </p>
   </div>
 </section>
