@@ -61,7 +61,7 @@ class CheckoutController < ApplicationController
         if user
           user.update(
             subscribed: true,
-            subscription_end: 1.year.from_now
+            subscription_end: 100.year.from_now
           )
           Rails.logger.info "User #{user.id} upgraded to premium until #{user.subscription_end}"
         else
