@@ -21,7 +21,10 @@
         <h4>Premium Offer</h4>
         <p>€4.99 / year</p>
         <p>Access all Premium features and create an unlimited number of worlds.</p>
-        <%= button_to "Get premium now", checkout_path, method: :get, class: "btn-primary" %>
+        <form action="<%= checkout_path %>" method="post" data-turbo="false">
+          <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+          <button type="submit" class="btn-primary">Get Premium Now</button>
+        </form>
       </div>
     </div>
   </div>

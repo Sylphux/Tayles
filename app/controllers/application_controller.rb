@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  before_action :redirect_home, except: [ :home, :about, :ui_kit ], unless: :devise_controller? # redirige home quand pas connecté sauf si on est dans un controller devise
+  before_action :redirect_home, except: [ :home, :about, :ui_kit, :create, :premium ], unless: :devise_controller? # redirige home quand pas connecté sauf si on est dans un controller devise
 
   include SessionsHelper
 

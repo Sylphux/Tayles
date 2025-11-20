@@ -14,7 +14,8 @@ Rails.application.routes.draw do
   get "/dashboard", to: "static#dashboard"
   get "/about", to: "static#about"
   get "/style", to: "static#ui_kit"
-  get "/checkout", to: "checkout#create"
+  post "/checkout", to: "checkout#create"
+  post "/webhooks/stripe", to: "checkout#webhook"
   get "/premium", to: "static#premium"
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
