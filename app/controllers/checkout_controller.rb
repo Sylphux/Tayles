@@ -3,7 +3,7 @@ class CheckoutController < ApplicationController
   skip_before_action :redirect_home, only: [:webhook]
 
   def create
-    premium = Premium.first || Premium.new(name: 'Tayles Premium - Abonnement annuel', price_cents: 499)
+    premium = Premium.first || Premium.new(name: 'Tayles Premium - Lifetime', price_cents: 499)
 
     session = Stripe::Checkout::Session.create(
       payment_method_types: ['card'],
