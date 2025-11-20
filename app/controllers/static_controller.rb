@@ -29,6 +29,9 @@ class StaticController < ApplicationController
   def ui_kit
   end
 
+  def premium
+  end
+
   private
 
   def redirect_to_dashboard # si connecté on veut pas aller sur la page home, on renvoie sur dashboard
