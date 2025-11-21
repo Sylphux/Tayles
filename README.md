@@ -68,8 +68,14 @@ rails s
 If you wanna run in production
 
 ```shell
-rails bd:create RAILS_ENV=production
+rails db:create RAILS_ENV=production
 rails db:migrate RAILS_ENV=production
 rails db:seed RAILS_ENV=production
 rails s -e production
+```
+
+To setup the stripe listener 
+
+```shell
+stripe listen --forward-to localhost:3000/webhooks/stripe
 ```
