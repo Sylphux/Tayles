@@ -64,3 +64,12 @@ rails db:migrate
 rails db:seed
 rails s
 ```
+
+If you wanna run in production
+
+```shell
+rails bd:create RAILS_ENV=production
+rails db:migrate RAILS_ENV=production
+rails db:seed RAILS_ENV=production
+rails s -e production
+```
