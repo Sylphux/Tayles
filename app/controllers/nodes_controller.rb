@@ -1,6 +1,7 @@
 class NodesController < ApplicationController
   before_action :set_node, only: %i[ show edit update destroy ]
   before_action :verify_show_access, only: [ :show ] # verifie si le user peut accéder au node
+  before_action :redirect_if_not_premium, only: [:new]
 
   # GET /nodes or /nodes.json
   def index
@@ -72,23 +73,28 @@ class NodesController < ApplicationController
     node_spec = node_params
 
     if node_spec[:node_type] == "World"
-      puts "### World type node ###"
-      node_spec[:world_id] = nil
-      #on crée à la fois un node world et son object world associé avec les mêmes specs
-      new_world_node = Node.new(node_spec)
-      new_world = World.new(world_name: node_spec[:node_title], description: node_spec[:public_description])
-      respond_to do |format|
-        if new_world_node.save && new_world.save
-          new_world.node_id = new_world_node.id
-          new_world_node.world_id = new_world.id
-          new_world_ownership = WorldOwner.new(user: current_user, world: new_world)
-          if new_world_node.save && new_world.save && new_world_ownership.save # on vérifie que tout s'enregistre correctement
-            format.html { redirect_to :dashboard, notice: "World node, world object and world ownership were successfully created." }
+
+      if current_user.worlds.count < 2 || current_user.subscribed == true
+        puts "### World type node ###"
+        node_spec[:world_id] = nil
+        #on crée à la fois un node world et son object world associé avec les mêmes specs
+        new_world_node = Node.new(node_spec)
+        new_world = World.new(world_name: node_spec[:node_title], description: node_spec[:public_description])
+        respond_to do |format|
+          if new_world_node.save && new_world.save
+            new_world.node_id = new_world_node.id
+            new_world_node.world_id = new_world.id
+            new_world_ownership = WorldOwner.new(user: current_user, world: new_world)
+            if new_world_node.save && new_world.save && new_world_ownership.save # on vérifie que tout s'enregistre correctement
+              format.html { redirect_to :dashboard, notice: "World node, world object and world ownership were successfully created." }
+            end
+          else
+            format.html { render :new, status: :unprocessable_entity }
+            redirect_to new_node_path
           end
-        else
-          format.html { render :new, status: :unprocessable_entity }
-          redirect_to new_node_path
         end
+      else
+        redirect_to "/premium"
       end
 
     else #si ce n'est pas un world mais un node commun
@@ -231,6 +237,12 @@ class NodesController < ApplicationController
         if node_is_known?(@node) == false
           redirect_to :dashboard
         end
+      end
+    end
+
+    def redirect_if_not_premium
+      if current_user.worlds.count >= 2 && current_user.subscribed == false && params[:node_type] == "World"
+        redirect_to "/premium"
       end
     end
 
