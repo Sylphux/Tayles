@@ -1,6 +1,5 @@
 class TeamLinkersController < ApplicationController
     def create
-
     end
 
     def destroy

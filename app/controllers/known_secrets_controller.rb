@@ -1,10 +1,9 @@
 class KnownSecretsController < ApplicationController
-
   def create
     puts "### In create secret link ###"
     puts params
-    secret = Secret.find(params[:secret_id])  
-    
+    secret = Secret.find(params[:secret_id])
+
 
     if params[:user_id]
       add_secret_to_user(secret, User.find(params[:user_id]))
@@ -16,11 +15,10 @@ class KnownSecretsController < ApplicationController
       # ajouter le secret à tous les membres de la team
     else
       puts "### Wrong parameters ###"
-      return
+      nil
     end
 
     # redirect_to node_path(secret.node)
-
   end
 
   def destroy
@@ -35,7 +33,6 @@ class KnownSecretsController < ApplicationController
   private
 
   def add_secret_to_user(secret, user)
-
     if !(user.nodes.include? secret.node) # si user ne connait pas encore le node mais se fait révéler le secret
       if KnownNode.create(user: user, node: secret.node)
         puts "#### Success assigning node knownledge ###"
@@ -47,7 +44,5 @@ class KnownSecretsController < ApplicationController
         puts "#### Success assigning secret ###"
       end
     end
-
-  end 
-
+  end
 end

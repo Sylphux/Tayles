@@ -1,12 +1,11 @@
 class KnownNodesController < ApplicationController
-
     def destroy
         puts "### In known nodes destroy ###"
         @known_node = KnownNode.find(params[:id])
         @node = @known_node.node
         if @known_node.destroy
             puts "### Succes destroying knownledge ###"
-            # redirect_to node_path(@node)
+        # redirect_to node_path(@node)
         else
             puts "### Error trying to destroy known node ###"
         end
@@ -24,17 +23,15 @@ class KnownNodesController < ApplicationController
                     end
                 end
             end
-            # redirect_to node_path(params[:node_id])
+          # redirect_to node_path(params[:node_id])
         end
 
         if params[:user_id]
             user = User.find(params[:user_id])
             if KnownNode.create(user: user, node: @node)
                 puts "### #{user.username} now knows #{@node.node_title} ###"
-                # redirect_to node_path(@node)
+              # redirect_to node_path(@node)
             end
         end
-
     end
-
 end

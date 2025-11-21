@@ -1,7 +1,6 @@
 module ApplicationHelper
-
     def markdown(text)
-        return '' if text.blank?
+        return "" if text.blank?
         renderer = Redcarpet::Render::HTML.new(hard_wrap: true, filter_html: true)
         options = {
             autolink: true,
@@ -13,6 +12,4 @@ module ApplicationHelper
         }
         Redcarpet::Markdown.new(renderer, options).render(text).html_safe
     end
-
-
 end

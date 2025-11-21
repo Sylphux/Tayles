@@ -1,6 +1,6 @@
 class TeamsController < ApplicationController
   before_action :set_team, only: %i[ show edit update destroy ]
-  before_action :verify_show_access, only: [:show]
+  before_action :verify_show_access, only: [ :show ]
 
   # GET /teams or /teams.json
 
@@ -9,15 +9,13 @@ class TeamsController < ApplicationController
     @team = Team.find(params[:id])
     @owned = team_belongs_to_user(@team)
     @available_characters = [] # simple liste de characters dispos
-    @dropdown_chars = [] # pret à utiliser dans le dropdown 
+    @dropdown_chars = [] # pret à utiliser dans le dropdown
     for char in @team.world.nodes.where(node_type: "Character") do
       if char.team_linkers == []
         @available_characters.push(char)
-        @dropdown_chars.push([char.node_title, char.id])
+        @dropdown_chars.push([ char.node_title, char.id ])
       end
     end
-
-
   end
 
   # GET /teams/new
@@ -105,5 +103,4 @@ class TeamsController < ApplicationController
     def team_params
       params.require(:team).permit(:name, :description, :world_id)
     end
-
 end

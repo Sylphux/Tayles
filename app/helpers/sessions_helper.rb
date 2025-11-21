@@ -1,12 +1,9 @@
 module SessionsHelper
-
-
-
     def shorten_text(s, n) # shorten a string / text. s is the input string, n is the desired length
         if s.length > n
             return (s[0..n-3] + "...")
         end
-        return s
+        s
     end
 
     def node_edit_perm(node) # can current user edit this node or not ?
@@ -22,7 +19,7 @@ module SessionsHelper
                 return true
             end
         end
-        return false
+        false
     end
 
     def explored_worlds
@@ -30,7 +27,7 @@ module SessionsHelper
         for t in current_user.teams do
             result.push(t.world.node)
         end
-        return result
+        result
     end
 
     def node_belongs_to_user?(n) # verifies if node belongs to user
@@ -53,7 +50,7 @@ module SessionsHelper
                 end
             end
         end
-        return result
+        result
     end
 
     def teams_who_doesnt_know_secret(secret, teams)
@@ -66,7 +63,7 @@ module SessionsHelper
                 end
             end
         end
-        return result
+        result
     end
 
     def users_who_dont_know_secret(secret, teams)
@@ -80,14 +77,14 @@ module SessionsHelper
                 end
             end
         end
-        return result
+        result
     end
 
     def get_player_character(t, u) # gets a players character node (t is team and u is user)
         if u.team_linkers.where(team_id: t.id).first.node
-            return u.team_linkers.where(team_id: t.id).first.node
+            u.team_linkers.where(team_id: t.id).first.node
         else
-            return false
+            false
         end
     end
 
@@ -108,7 +105,7 @@ module SessionsHelper
                 end
             end
         end
-        return false
+        false
     end
 
     def team_is_explored(t)
@@ -117,14 +114,14 @@ module SessionsHelper
                 return true
             end
         end
-        return false
+        false
     end
 
-    def node_discovered_on(n) # gives the date node was revealed to 
+    def node_discovered_on(n) # gives the date node was revealed to
         for known in KnownNode.where(node: n, user: current_user)
             return known.created_at
         end
-        return "Not discovered yet."
+        "Not discovered yet."
     end
 
     def user_teams(n) # returns the team on which user is exploring the world
@@ -213,10 +210,10 @@ module SessionsHelper
         when "World"
             return "World"
         end
-        return nil
+        nil
     end
 
     def ntypes
-        return ["Character", "Place", "Event", "Object"]
+        [ "Character", "Place", "Event", "Object" ]
     end
 end

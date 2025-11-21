@@ -1,7 +1,7 @@
 class NodesController < ApplicationController
   before_action :set_node, only: %i[ show edit update destroy ]
   before_action :verify_show_access, only: [ :show ] # verifie si le user peut accéder au node
-  before_action :redirect_if_not_premium, only: [:new]
+  before_action :redirect_if_not_premium, only: [ :new ]
 
   # GET /nodes or /nodes.json
   def index
@@ -22,7 +22,7 @@ class NodesController < ApplicationController
     @node_unknowing = []
     @node_knowing = []
     @node_unknowing_teams = []
-    
+
     if @owned
       @teams = @node.world.teams
       @node_unknowing = has_not_discovered_node(@node)
@@ -45,7 +45,7 @@ class NodesController < ApplicationController
         end
       end
     end
-    
+
     for team in @teams do
       for user in team.users do
         if !(user.nodes.include? @node)
@@ -54,7 +54,6 @@ class NodesController < ApplicationController
         end
       end
     end
-
   end
 
   # GET /nodes/new
@@ -77,7 +76,7 @@ class NodesController < ApplicationController
       if current_user.worlds.count < 2 || current_user.subscribed == true
         puts "### World type node ###"
         node_spec[:world_id] = nil
-        #on crée à la fois un node world et son object world associé avec les mêmes specs
+        # on crée à la fois un node world et son object world associé avec les mêmes specs
         new_world_node = Node.new(node_spec)
         new_world = World.new(world_name: node_spec[:node_title], description: node_spec[:public_description])
         respond_to do |format|
@@ -97,11 +96,11 @@ class NodesController < ApplicationController
         redirect_to "/premium"
       end
 
-    else #si ce n'est pas un world mais un node commun
+    else # si ce n'est pas un world mais un node commun
       puts "### Common node ###"
       new_node = Node.new(node_spec)
       new_node.world_id = Node.find(node_spec[:world_id]).world_id
-      savestate = false 
+      savestate = false
       if new_node.save
         puts "### Success saving new node ###"
         savestate = true
@@ -131,7 +130,6 @@ class NodesController < ApplicationController
       end
 
     end
-
   end
 
   # PATCH/PUT /nodes/1 or /nodes/1.json
@@ -150,7 +148,7 @@ class NodesController < ApplicationController
       params_set = node_params
 
       if @node.node_type == "World"
-        world_params = {world_name: params_set[:node_title], description: params_set[:public_description]}
+        world_params = { world_name: params_set[:node_title], description: params_set[:public_description] }
         if @node.world.update(world_params)
           puts "### World params updated with node ###"
         end
@@ -166,7 +164,6 @@ class NodesController < ApplicationController
         end
       end
     end
-
   end
 
   # DELETE /nodes/1 or /nodes/1.json
@@ -245,5 +242,4 @@ class NodesController < ApplicationController
         redirect_to "/premium"
       end
     end
-
 end

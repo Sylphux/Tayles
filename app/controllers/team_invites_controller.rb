@@ -2,9 +2,9 @@ class TeamInvitesController < ApplicationController
     def create
         puts "### Team invite create function ###"
         puts params
-        if team_belongs_to_user(Team.find(params[:team_id])) #sécurité on vérifie si la team à la quelle on invite nous appartient
-            if TeamInvite.where(invited_email_id: params[:email], team_id: params[:team_id], status: "Accepted") == [] && TeamInvite.where(invited_email_id: params[:email], team_id: params[:team_id], status: "Pending") == [] #vérifie qu'on a pas déjà une invite acceptée ou en cours pour cette personne dans ce monde. Si la personna a refusé, on peut donc lui en renvoyer une.
-                if !Team.find(params[:team_id]).users.include? User.where(email: params[:email]).first #vérifie que l'user est tout de même pas déjà dans la team (à cause du seed)
+        if team_belongs_to_user(Team.find(params[:team_id])) # sécurité on vérifie si la team à la quelle on invite nous appartient
+            if TeamInvite.where(invited_email_id: params[:email], team_id: params[:team_id], status: "Accepted") == [] && TeamInvite.where(invited_email_id: params[:email], team_id: params[:team_id], status: "Pending") == [] # vérifie qu'on a pas déjà une invite acceptée ou en cours pour cette personne dans ce monde. Si la personna a refusé, on peut donc lui en renvoyer une.
+                if !Team.find(params[:team_id]).users.include? User.where(email: params[:email]).first # vérifie que l'user est tout de même pas déjà dans la team (à cause du seed)
                     puts "## Team seems to belong to user ##"
                     invite = TeamInvite.new(invited_email_id: params[:email], user: current_user, team_id: params[:team_id], status: "Pending")
                     if invite.invited_email_id != current_user.email && invite.save
@@ -19,7 +19,7 @@ class TeamInvitesController < ApplicationController
             puts "### Unauthorized action ###"
         end
     end
-    
+
     def update
         invite = TeamInvite.find(params[:id])
         if params[:choice] == "Accept" # user accepte l'invitation à la team

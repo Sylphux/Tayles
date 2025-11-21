@@ -36,7 +36,6 @@ class SecretsController < ApplicationController
 
   # PATCH/PUT /secrets/1 or /secrets/1.json
   def update
-
     if @secret.update(secret_params)
       redirect_to node_path(@secret.node.id)
     end
@@ -55,11 +54,10 @@ class SecretsController < ApplicationController
 
   # DELETE /secrets/1 or /secrets/1.json
   def destroy
-    
     for known in @secret.known_secrets do # delete toutes les découverrtes de cec secret
       known.destroy!
     end
-    
+
     node = @secret.node
 
     if @secret.destroy!
@@ -82,5 +80,4 @@ class SecretsController < ApplicationController
     def secret_params
       params.require(:secret).permit(:secret_title, :secret_content, :secret_order, :node_id)
     end
-
 end
